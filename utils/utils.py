@@ -23,11 +23,7 @@ class Utils:
         print(f'Arquivos CSV combinados em {output_file}')
 
     @staticmethod
-    def upload_to_s3(file_name, bucket, object_name=None):
-        # Se o nome do objeto não for especificado, usar o nome do arquivo
-        if object_name is None:
-            object_name = file_name
-
+    def upload_to_s3(file_name, bucket, object_name):
         # Inicializar a sessão do S3
         s3_client = boto3.client('s3')
 
@@ -39,11 +35,12 @@ class Utils:
             print('Credenciais não disponíveis')
 
     @staticmethod
-    def upload_all_csv_files(input_folder, bucket):
+    def upload_all_csv_files(input_folder, bucket, base_path, folder_name):
         # Listar todos os arquivos CSV no diretório de entrada
-        csv_files = [f for f in os.listdir(input_folder) if f.endswith('.csv')]
+        csv_files = [f for f in os.listdir(f"{input_folder}/{folder_name}") if f.endswith('.csv')]
 
         # Fazer upload de cada arquivo CSV
         for file in csv_files:
-            file_path = os.path.join(input_folder, file)
-            Utils.upload_to_s3(file_path, bucket, file)
+            file_path = os.path.join(input_folder, folder_name, file)
+            object_name = f"{base_path}/{folder_name}/{file}"
+            Utils.upload_to_s3(file_path, bucket, object_name)

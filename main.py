@@ -13,23 +13,29 @@ def main():
     end_year = 2024
     force_update_years = []
 
-    # Coleta e salva dados de idade
-    age_scraper = AgeScraper(start_year, end_year, force_update_years)
-    age_scraper.collect_and_save_data()
 
-    # Coleta e salva dados de preço
-    price_scraper = PriceScraper(start_year, end_year, force_update_years)
-    price_scraper.collect_and_save_data()
+    # # Coleta e salva dados de idade
+    # age_scraper = AgeScraper(start_year, end_year, force_update_years)
+    # age_scraper.collect_and_save_data()
+    #
+    # # Coleta e salva dados de preço
+    # price_scraper = PriceScraper(start_year, end_year, force_update_years)
+    # price_scraper.collect_and_save_data()
+    #
+    # # Coleta e salva dados de rodadas
+    # round_scraper = RoundScraper(start_year, end_year, force_update_years, rounds_per_season)
+    # round_scraper.collect_and_save_data()
+    #
+    # # Coleta e salva dados de jogos dentro e fora
+    # home_away_scraper = HomeAwayScraper(start_year, end_year, force_update_years, rounds_per_season)
+    # home_away_scraper.collect_and_save_data()
 
-    # Coleta e salva dados de rodadas
-    round_scraper = RoundScraper(start_year, end_year, force_update_years, rounds_per_season)
-    round_scraper.collect_and_save_data()
-
-    # Coleta e salva dados de jogos dentro e fora
-    home_away_scraper = HomeAwayScraper(start_year, end_year, force_update_years, rounds_per_season)
-    home_away_scraper.collect_and_save_data()
-
-    Utils.upload_all_csv_files('./data/age', 's3://databricks-workspace-stack-4f961-bucket/unity-catalog/2370156648242123/age')
+    Utils.upload_all_csv_files(
+        input_folder="data",
+        bucket="databricks-workspace-stack-4f961-bucket",
+        base_path="unity-catalog/2370156648242123",
+        folder_name="age"
+    )
 
 
 if __name__ == "__main__":
