@@ -57,14 +57,14 @@ class DataScraper:
         """
         all_data = []
         for year in range(self.start_year, self.end_year + 1):
-            file_path = f"../data/{self.get_data_type()}/{self.get_data_type()}_{year}.csv"
-            if os.path.exists(file_path) and year not in self.force_update_years:
-                existing_df = pd.read_csv(file_path)
+            fpath = f"./data/{self.get_data_type()}/{self.get_data_type()}_{year}.csv"
+            if os.path.exists(fpath) and year not in self.force_update_years:
+                existing_df = pd.read_csv(fpath)
                 all_data.extend(existing_df.values.tolist())
             else:
                 data = self.get_data(year)
                 if data:
-                    self.save_data(data, file_path)
+                    self.save_data(data, fpath)
                     all_data.extend(data)
                     if self.is_sleep_enable:
                         time.sleep(1)
