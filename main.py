@@ -4,6 +4,7 @@ from data_scraper.age_scraper import AgeScraper
 from data_scraper.price_scraper import PriceScraper
 from data_scraper.round_scraper import RoundScraper
 from data_scraper.home_away_scraper import HomeAwayScraper
+from utils.utils import Utils
 
 
 def main():
@@ -27,6 +28,8 @@ def main():
     # Coleta e salva dados de jogos dentro e fora
     home_away_scraper = HomeAwayScraper(start_year, end_year, force_update_years, rounds_per_season)
     home_away_scraper.collect_and_save_data()
+
+    Utils.upload_all_csv_files('./data/age', 's3://databricks-workspace-stack-4f961-bucket/unity-catalog/2370156648242123/age')
 
 
 if __name__ == "__main__":

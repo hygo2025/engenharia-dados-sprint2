@@ -1,5 +1,7 @@
 import pandas as pd
 import os
+import boto3
+from botocore.exceptions import NoCredentialsError
 
 
 class Utils:
@@ -19,3 +21,29 @@ class Utils:
         # Salvar o DataFrame resultante em um novo arquivo CSV
         merged_df.to_csv(output_file, index=False)
         print(f'Arquivos CSV combinados em {output_file}')
+
+    @staticmethod
+    def upload_to_s3(file_name, bucket, object_name=None):
+        # Se o nome do objeto não for especificado, usar o nome do arquivo
+        if object_name is None:
+            object_name = file_name
+
+        # Inicializar a sessão do S3
+        s3_client = boto3.client('s3')
+
+        try:
+            # Fazer upload do arquivo para o bucket especificado
+            s3_client.upload_file(file_name, bucket, object_name)
+            print(f'Arquivo {file_name} carregado com sucesso para {bucket}/{object_name}')
+        except NoCredentialsError:
+            print('Credenciais não disponíveis')
+
+    @staticmethod
+    def upload_all_csv_files(input_folder, bucket):
+        # Listar todos os arquivos CSV no diretório de entrada
+        csv_files = [f for f in os.listdir(input_folder) if f.endswith('.csv')]
+
+        # Fazer upload de cada arquivo CSV
+        for file in csv_files:
+            file_path = os.path.join(input_folder, file)
+            Utils.upload_to_s3(file_path, bucket, file)
