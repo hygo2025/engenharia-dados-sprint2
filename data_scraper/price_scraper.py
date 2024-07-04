@@ -47,8 +47,6 @@ class PriceScraper(DataScraper):
                 if len(cells) > 1:
                     # Normaliza o nome do clube e coleta os dados relevantes
                     team = self.normalize_club_name(cells[1].get_text(strip=True))
-                    if team == 'Juventude':
-                        print('juventude')
                     squad_size = cells[2].get_text(strip=True)
                     avg_age = self.convert_avg_age(cells[3].get_text(strip=True))
                     foreigners = cells[4].get_text(strip=True)
