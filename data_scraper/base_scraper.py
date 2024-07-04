@@ -4,6 +4,8 @@ import os
 import requests
 import pandas as pd
 import time
+
+from utils.utils import Utils
 from .club_mapping import club_mapping
 
 
@@ -68,6 +70,10 @@ class DataScraper:
                     all_data.extend(data)
                     if self.is_sleep_enable:
                         time.sleep(1)
+        Utils.merge_csv_files(
+            input_folder=f"./data/{self.get_data_type()}",
+            output_file=f"./consolidated/{self.get_data_type()}_all.data.csv"
+        )
 
     def convert_string_to_double(self, value):
         """

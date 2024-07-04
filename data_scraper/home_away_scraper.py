@@ -44,8 +44,6 @@ class HomeAwayScraper(DataScraper):
             content = self.fetch_data(url)
             soup = BeautifulSoup(content, 'html.parser')
             tables = soup.find_all('table')
-            if round_number == 6:
-                print('teste')
 
             for table in tables:
                 counter = 0
