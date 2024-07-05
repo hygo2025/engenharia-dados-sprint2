@@ -6,6 +6,10 @@
    - [2. Coleta de Dados](#2-coleta-de-dados)
    - [3. Plataforma para Execução das Tarefas](#3-plataforma-para-execução-das-tarefas)
    - [4. Formato e Armazenamento](#4-formato-e-armazenamento)
+   - [5. Modelagem e Carregamento](#5-modelagem-e-carregamento)
+     - [5.1. Criação dos Esquemas](#5.1-criação-dos-esquemas)
+     - [5.2. Criação das Tabelas](#5.2-criação-das-tabelas)
+     - [5.3. Extração e Carregamento de Dados para a Camada Bronze](#5.3-extração-e-carregamento-de-dados-para-a-camada-bronze)
 
 ## Definição do Problema
 
@@ -67,7 +71,6 @@ Foi criado um cluster no Databricks Premium, integrado com o GitHub para version
 
 Essa arquitetura oferece uma abordagem estruturada e eficiente para gerenciar e processar grandes volumes de dados, assegurando escalabilidade e confiabilidade. Com o data lake centrado na arquitetura Medallion, espera-se melhorar a acessibilidade aos dados, fortalecer as capacidades analíticas e aumentar a agilidade na geração de insights para suportar decisões informadas.
 
-
 ### 5. Modelagem e Carregamento
 
 #### 5.1. Criação dos Esquemas
@@ -79,4 +82,21 @@ Após a criação dos esquemas, o próximo passo é a criação das tabelas nece
 #### 5.3. Extração e Carregamento de Dados para a Camada Bronze
 Com os esquemas e tabelas configurados, o próximo passo é extrair e carregar os dados nas respectivas tabelas. Utilizamos o job [extract_data](jobs/extract_data.py) para automatizar a extração e o carregamento dos dados nas tabelas da camada Bronze. Este job garante que os dados sejam processados e carregados corretamente nas tabelas de dados brutos.
 
-Este processo garante que os dados brutos sejam extraídos e carregados corretamente nas tabelas da camada Bronze, seguindo a arquitetura Medallion e assegurando que os dados estejam prontos para a próxima fase de processamento.
+Este processo percorre algumas URLs do site e faz a extração dessas informações, salvando em arquivos dentro da pasta `data` no seguinte formato:
+
+- Idade média dos jogadores por clube e temporada
+  - `data/age/age_{year}.csv`
+  - Scraper [age_scraper](data_scraper/age_scraper.py)
+- Resultados dos jogos em casa e fora de casa por rodada
+  - `data/home_away/home_away_{year}.csv`
+  - Scraper [home_away_scraper](data_scraper/home_away_scraper.py)
+- Valor de mercado dos clubes por temporada
+  - `data/price/price_{year}.csv`
+  - Scraper [price_scraper](data_scraper/price_scraper.py)
+- Classificação e desempenho dos clubes por rodada
+  - `data/round/round_{year}.csv`
+  - Scraper [round_scraper](data_scraper/round_scraper.py)
+
+As tarefas compartilhadas estão na classe [base_scraper](data_scraper/base_scraper.py).
+
+A primeira coisa que o script faz é checar se já existe este arquivo localmente, e caso exista, ele utiliza o local. Caso contrário, ele busca a informação no site novamente. É possível forçar a atualização através da variável `force_update_years`. Uma vez com os arquivos em cache local, é populada a tabela em questão da camada bronze (age, home_away, price e round).

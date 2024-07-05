@@ -12,17 +12,17 @@ def main():
     end_year = 2024
     force_update_years = []
 
-    # Coleta e salva dados de idade
-    age_scraper = AgeScraper(start_year, end_year, force_update_years)
-    age_scraper.collect_and_save_data()
-
-    # Coleta e salva dados de preço
-    price_scraper = PriceScraper(start_year, end_year, force_update_years)
-    price_scraper.collect_and_save_data()
-
-    # Coleta e salva dados de rodadas
-    round_scraper = RoundScraper(start_year, end_year, force_update_years, rounds_per_season)
-    round_scraper.collect_and_save_data()
+    # # Coleta e salva dados de idade
+    # age_scraper = AgeScraper(start_year, end_year, force_update_years)
+    # age_scraper.collect_and_save_data()
+    #
+    # # Coleta e salva dados de preço
+    # price_scraper = PriceScraper(start_year, end_year, force_update_years)
+    # price_scraper.collect_and_save_data()
+    #
+    # # Coleta e salva dados de rodadas
+    # round_scraper = RoundScraper(start_year, end_year, force_update_years, rounds_per_season)
+    # round_scraper.collect_and_save_data()
 
     # Coleta e salva dados de jogos dentro e fora
     home_away_scraper = HomeAwayScraper(start_year, end_year, force_update_years, rounds_per_season)
