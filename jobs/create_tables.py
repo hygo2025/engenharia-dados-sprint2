@@ -19,15 +19,15 @@ def main():
         """,
         "home_away": """
             (
-                ano INT,
-                rodada INT,
-                clube_mandante STRING,
-                clube_visitante STRING,
-                gols_mandante INT,
-                gols_visitante INT,
-                data DATE,
-                juiz STRING,
-                publico FLOAT
+                ano bigint,
+                rodada bigint,
+                clube_mandante string,
+                clube_visitante string,
+                gols_mandante string,
+                gols_visitante string,
+                data string,
+                juiz string,
+                publico string
             )
         """,
         "price": """

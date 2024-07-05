@@ -7,9 +7,14 @@
    - [3. Plataforma para Execução das Tarefas](#3-plataforma-para-execução-das-tarefas)
    - [4. Formato e Armazenamento](#4-formato-e-armazenamento)
    - [5. Modelagem e Carregamento](#5-modelagem-e-carregamento)
-     - [5.1. Criação dos Esquemas](#5.1-criação-dos-esquemas)
-     - [5.2. Criação das Tabelas](#5.2-criação-das-tabelas)
-     - [5.3. Extração e Carregamento de Dados para a Camada Bronze](#5.3-extração-e-carregamento-de-dados-para-a-camada-bronze)
+     - [5.1. Criação dos Esquemas](#51-criação-dos-esquemas)
+     - [5.2. Criação das Tabelas](#52-criação-das-tabelas)
+     - [5.3. Extração e Carregamento de Dados para a Camada Bronze](#53-extração-e-carregamento-de-dados-para-a-camada-bronze)
+   - [6. Catálogo de Dados da Camada Bronze](#6-catálogo-de-dados-da-camada-bronze)
+     - [6.1. age](#61-age)
+     - [6.2. home_away](#62-home_away)
+     - [6.3. price](#63-price)
+     - [6.4. round](#64-round)
 
 ## Definição do Problema
 
@@ -100,3 +105,56 @@ Este processo percorre algumas URLs do site e faz a extração dessas informaç�
 As tarefas compartilhadas estão na classe [base_scraper](data_scraper/base_scraper.py).
 
 A primeira coisa que o script faz é checar se já existe este arquivo localmente, e caso exista, ele utiliza o local. Caso contrário, ele busca a informação no site novamente. É possível forçar a atualização através da variável `force_update_years`. Uma vez com os arquivos em cache local, é populada a tabela em questão da camada bronze (age, home_away, price e round).
+
+### 6. Catálogo de Dados da Camada Bronze
+
+#### 6.1. age
+| Coluna                      | Tipo    | Descrição                                 | Nulo |
+|-----------------------------|---------|-------------------------------------------|------|
+| ano                         | bigint  | Ano da temporada                          | Não  |
+| clube                       | string  | Nome do clube                             | Não  |
+| plantel                     | bigint  | Número de jogadores no plantel            | Não  |
+| jogadores_utilizados        | bigint  | Número de jogadores utilizados            | Não  |
+| media_idade_plantel         | double  | Média de idade do plantel                 | Não  |
+| media_idade_time_titular    | double  | Média de idade do time titular            | Não  |
+| media_idade                 | double  | Média de idade geral                      | Não  |
+
+#### 6.2. home_away
+| Coluna            | Tipo    | Descrição                         | Nulo |
+|-------------------|---------|-----------------------------------|------|
+| ano               | bigint  | Ano da temporada                  | Não  |
+| rodada            | bigint  | Rodada do jogo                    | Não  |
+| clube_mandante    | string  | Nome do clube mandante            | Não  |
+| clube_visitante   | string  | Nome do clube visitante           | Não  |
+| gols_mandante     | string  | Gols do clube mandante            | Não  |
+| gols_visitante    | string  | Gols do clube visitante           | Não  |
+| data              | string  | Data do jogo                      | Sim  |
+| juiz              | string  | Nome do juiz                      | Sim  |
+| publico           | string  | Público presente                  | Sim  |
+
+#### 6.3. price
+| Coluna                | Tipo    | Descrição                             | Nulo |
+|-----------------------|---------|---------------------------------------|------|
+| ano                   | bigint  | Ano da temporada                      | Não  |
+| clube                 | string  | Nome do clube                         | Não  |
+| plantel               | string  | Número de jogadores no plantel        | Não  |
+| media_idade           | string  | Média de idade do plantel             | Não  |
+| estrangeiros          | string  | Número de jogadores estrangeiros      | Não  |
+| media_valor_mercado   | string  | Valor médio de mercado                | Não  |
+| valor_mercado_total   | string  | Valor total de mercado                | Não  |
+
+#### 6.4. round
+| Coluna         | Tipo    | Descrição                                 | Nulo |
+|----------------|---------|-------------------------------------------|------|
+| ano            | bigint  | Ano da temporada                          | Não  |
+| rodada         | bigint  | Rodada do jogo                            | Não  |
+| classificacao  | string  | Classificação do clube na rodada          | Não  |
+| clube          | string  | Nome do clube                             | Não  |
+| jogos          | string  | Número de jogos disputados                | Não  |
+| vitorias       | string  | Número de vitórias                        | Não  |
+| empates        | string  | Número de empates                         | Não  |
+| derrotas       | string  | Número de derrotas                        | Não  |
+| gols_pro       | string  | Número de gols a favor                    | Não  |
+| gols_contra    | string  | Número de gols contra                     | Não  |
+| saldo          | string  | Saldo de gols                             | Não  |
+| pontos         | string  | Número de pontos                          | Não  |
