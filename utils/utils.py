@@ -39,3 +39,37 @@ class Utils:
             file_path = os.path.join(input_folder, folder_name, file)
             object_name = f"{base_path}/{folder_name}/{file}"
             Utils.upload_to_s3(file_path, bucket, object_name)
+
+    @staticmethod
+    def convert_price(value):
+        """
+        Converte o valor de mercado de string para float.
+
+        :param value: Valor de mercado em string.
+        :return: Valor de mercado em float.
+        """
+        value = value.replace('€', '').replace(' ', '').replace(',', '.')
+        try:
+            if 'mi.' in value:
+                return float(value.replace('mi.', '')) * 1_000_000
+            elif 'mil.' in value:
+                return float(value.replace('mil.', '')) * 1_000
+            elif 'mil' in value:
+                return float(value.replace('mil', '')) * 1_000
+            else:
+                return float(value)
+        except ValueError:
+            return None
+
+    @staticmethod
+    def convert_avg_age(value):
+        """
+        Converte a média de idade de string para float.
+
+        :param value: Média de idade em string.
+        :return: Média de idade em float.
+        """
+        try:
+            return float(value.replace(',', '.'))
+        except ValueError:
+            return None

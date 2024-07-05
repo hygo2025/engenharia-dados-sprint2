@@ -48,43 +48,11 @@ class PriceScraper(DataScraper):
                     # Normaliza o nome do clube e coleta os dados relevantes
                     team = cells[1].get_text(strip=True)
                     squad_size = cells[2].get_text(strip=True)
-                    avg_age = self.convert_avg_age(cells[3].get_text(strip=True))
+                    avg_age = cells[3].get_text(strip=True)
                     foreigners = cells[4].get_text(strip=True)
-                    avg_market_value = self.convert_price(cells[5].get_text(strip=True))
-                    total_market_value = self.convert_price(cells[6].get_text(strip=True))
+                    avg_market_value = cells[5].get_text(strip=True)
+                    total_market_value = cells[6].get_text(strip=True)
                     data.append([year, team, squad_size, avg_age, foreigners, avg_market_value, total_market_value])
         return data
 
-    @staticmethod
-    def convert_price(value):
-        """
-        Converte o valor de mercado de string para float.
 
-        :param value: Valor de mercado em string.
-        :return: Valor de mercado em float.
-        """
-        value = value.replace('€', '').replace(' ', '').replace(',', '.')
-        try:
-            if 'mi.' in value:
-                return float(value.replace('mi.', '')) * 1_000_000
-            elif 'mil.' in value:
-                return float(value.replace('mil.', '')) * 1_000
-            elif 'mil' in value:
-                return float(value.replace('mil', '')) * 1_000
-            else:
-                return float(value)
-        except ValueError:
-            return None
-
-    @staticmethod
-    def convert_avg_age(value):
-        """
-        Converte a média de idade de string para float.
-
-        :param value: Média de idade em string.
-        :return: Média de idade em float.
-        """
-        try:
-            return float(value.replace(',', '.'))
-        except ValueError:
-            return None

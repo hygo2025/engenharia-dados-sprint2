@@ -34,11 +34,11 @@ def main():
             (
                 ano bigint,
                 clube string,
-                plantel bigint,
-                media_idade double,
-                estrangeiros bigint,
-                media_valor_mercado double,
-                valor_mercado_total double
+                plantel string,
+                media_idade string,
+                estrangeiros string,
+                media_valor_mercado string,
+                valor_mercado_total string
             )
         """,
         "round": """

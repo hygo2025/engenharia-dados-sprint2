@@ -7,7 +7,7 @@ from data_scraper.home_away_scraper import HomeAwayScraper
 
 
 def main():
-    rounds_per_season = {2024: 13}
+    rounds_per_season = {2024: 14}
     start_year = 2006
     end_year = 2024
     force_update_years = []
