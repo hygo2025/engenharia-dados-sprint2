@@ -2,6 +2,7 @@ import pandas as pd
 import os
 import boto3
 from botocore.exceptions import NoCredentialsError
+from decimal import Decimal, InvalidOperation
 
 
 class Utils:
@@ -43,22 +44,22 @@ class Utils:
     @staticmethod
     def convert_price(value):
         """
-        Converte o valor de mercado de string para float.
+        Converte o valor de mercado de string para Decimal.
 
         :param value: Valor de mercado em string.
-        :return: Valor de mercado em float.
+        :return: Valor de mercado em Decimal.
         """
         value = value.replace('€', '').replace(' ', '').replace(',', '.')
         try:
             if 'mi.' in value:
-                return float(value.replace('mi.', '')) * 1_000_000
+                return Decimal(value.replace('mi.', '')) * Decimal(1_000_000)
             elif 'mil.' in value:
-                return float(value.replace('mil.', '')) * 1_000
+                return Decimal(value.replace('mil.', '')) * Decimal(1_000)
             elif 'mil' in value:
-                return float(value.replace('mil', '')) * 1_000
+                return Decimal(value.replace('mil', '')) * Decimal(1_000)
             else:
-                return float(value)
-        except ValueError:
+                return Decimal(value)
+        except InvalidOperation:
             return None
 
     @staticmethod
@@ -73,3 +74,15 @@ class Utils:
             return float(value.replace(',', '.'))
         except ValueError:
             return None
+
+    @staticmethod
+    def ensure_length(arr, target_length, fill_value=None):
+        """
+        Garante que cada array interno tenha um comprimento específico.
+
+        :param arr: Lista de listas a ser processada.
+        :param target_length: Comprimento desejado para cada array interno.
+        :param fill_value: Valor com o qual preencher os arrays internos se eles forem mais curtos que o comprimento desejado.
+        :return: Lista de listas com o comprimento desejado para cada array interno.
+        """
+        return [sub_arr + [fill_value] * (target_length - len(sub_arr)) for sub_arr in arr]
