@@ -45,16 +45,16 @@ def main():
             (
                 ano bigint,
                 rodada bigint,
-                classificacao bigint,
+                classificacao string,
                 clube string,
-                jogos bigint,
-                vitorias bigint,
-                empates bigint,
-                derrotas bigint,
-                gols_pro bigint,
-                gols_contra bigint,
-                saldo bigint,
-                pontos bigint
+                jogos string,
+                vitorias string,
+                empates string,
+                derrotas string,
+                gols_pro string,
+                gols_contra string,
+                saldo string,
+                pontos string
             )
         """
     }

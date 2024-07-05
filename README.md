@@ -4,6 +4,8 @@
 3. [O Projeto](#o-projeto)
    - [1. Pesquisa de Dados](#1-pesquisa-de-dados)
    - [2. Coleta de Dados](#2-coleta-de-dados)
+   - [3. Plataforma para Execução das Tarefas](#3-plataforma-para-execução-das-tarefas)
+   - [4. Formato e Armazenamento](#4-formato-e-armazenamento)
 
 ## Definição do Problema
 
@@ -31,3 +33,50 @@ O conjunto de dados abrange diversas métricas importantes, tais como:
 - Classificação e desempenho dos clubes por rodada
 
 Essas métricas oferecem uma visão detalhada do desempenho e das características dos clubes ao longo das temporadas, facilitando análises comparativas e decisões informadas para treinadores, analistas esportivos, dirigentes de clubes e fãs de futebol.
+
+### 3. Plataforma para Execução das Tarefas
+
+Para este projeto, estou utilizando uma conta Databricks Premium como plataforma principal de processamento e análise de dados na nuvem. A escolha do Databricks foi baseada em suas capacidades robustas de processamento distribuído e análise de dados em grande escala.
+
+Principais funcionalidades utilizadas:
+
+- **Processamento Distribuído:** Permite a análise eficiente de grandes volumes de dados.
+- **Integração com S3:** Facilita o armazenamento e recuperação de dados diretamente do Amazon S3.
+- **Notebooks Colaborativos:** Ambiente interativo que permite a colaboração em tempo real.
+- **Gerenciamento de Clusters:** Ajuste automático de recursos conforme a demanda de processamento.
+- **Suporte a Delta Lake:** Garante a qualidade dos dados com transações ACID e consultas históricas.
+
+A utilização do Databricks Premium garante que todas as etapas do projeto, desde a ingestão de dados até a análise final, sejam executadas de maneira eficiente, proporcionando uma base sólida para a geração de insights valiosos sobre o Campeonato Brasileiro Série A.
+
+### 4. Formato e Armazenamento
+
+Foi criado um cluster no Databricks Premium, integrado com o GitHub para versionamento de código e gerenciamento de projetos. O armazenamento e o processamento dos dados utilizam uma arquitetura do tipo Medallion, estruturada em três camadas:
+![Catalog](images/catalog.png)
+
+- **Bronze:** Contém dados brutos, exatamente como foram extraídos das fontes.
+  
+  [Espaço para imagem da camada Bronze]
+
+- **Silver:** Contém dados limpos e transformados, prontos para análise.
+  
+  [Espaço para imagem da camada Silver]
+
+- **Gold:** Contém dados altamente refinados e otimizados para a geração de relatórios e insights.
+  
+  [Espaço para imagem da camada Gold]
+
+Essa arquitetura oferece uma abordagem estruturada e eficiente para gerenciar e processar grandes volumes de dados, assegurando escalabilidade e confiabilidade. Com o data lake centrado na arquitetura Medallion, espera-se melhorar a acessibilidade aos dados, fortalecer as capacidades analíticas e aumentar a agilidade na geração de insights para suportar decisões informadas.
+
+
+### 5. Modelagem e Carregamento
+
+#### 5.1. Criação dos Esquemas
+Dentro do Databricks, por viés organizacional, é necessário criar esquemas para armazenar as tabelas de análise. Será criado um esquema para cada camada do Data Lake. Para isso, utilizamos o job [create_schemas](jobs/create_schemas.py). Este job automatiza o processo de criação dos esquemas, garantindo consistência e organização no armazenamento dos dados.
+
+#### 5.2. Criação das Tabelas
+Após a criação dos esquemas, o próximo passo é a criação das tabelas necessárias para armazenar os dados de cada camada. Utilizamos o job [create_tables](jobs/create_tables.py) para automatizar este processo, assegurando que todas as tabelas estejam corretamente configuradas.
+
+#### 5.3. Extração e Carregamento de Dados para a Camada Bronze
+Com os esquemas e tabelas configurados, o próximo passo é extrair e carregar os dados nas respectivas tabelas. Utilizamos o job [extract_data](jobs/extract_data.py) para automatizar a extração e o carregamento dos dados nas tabelas da camada Bronze. Este job garante que os dados sejam processados e carregados corretamente nas tabelas de dados brutos.
+
+Este processo garante que os dados brutos sejam extraídos e carregados corretamente nas tabelas da camada Bronze, seguindo a arquitetura Medallion e assegurando que os dados estejam prontos para a próxima fase de processamento.
