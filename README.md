@@ -64,7 +64,7 @@ Foi criado um cluster no Databricks Premium, integrado com o GitHub para version
 
 - **Bronze:** Contém dados brutos, exatamente como foram extraídos das fontes.
   
-  [Espaço para imagem da camada Bronze]
+![Cmada bronze](images/camada_bronze.png)
 
 - **Silver:** Contém dados limpos e transformados, prontos para análise.
   
@@ -109,52 +109,52 @@ A primeira coisa que o script faz é checar se já existe este arquivo localment
 ### 6. Catálogo de Dados da Camada Bronze
 
 #### 6.1. age
-| Coluna                      | Tipo    | Descrição                                 | Nulo |
-|-----------------------------|---------|-------------------------------------------|------|
-| ano                         | bigint  | Ano da temporada                          | Não  |
-| clube                       | string  | Nome do clube                             | Não  |
-| plantel                     | bigint  | Número de jogadores no plantel            | Não  |
-| jogadores_utilizados        | bigint  | Número de jogadores utilizados            | Não  |
-| media_idade_plantel         | double  | Média de idade do plantel                 | Não  |
-| media_idade_time_titular    | double  | Média de idade do time titular            | Não  |
-| media_idade                 | double  | Média de idade geral                      | Não  |
+| Coluna                      | Tipo    | Descrição                                 | Nulo | Valores Mínimos | Valores Máximos |
+|-----------------------------|---------|-------------------------------------------|------|-----------------|-----------------|
+| ano                         | bigint  | Ano da temporada                          | Não  | 2006            | 2024            |
+| clube                       | string  | Nome do clube                             | Não  | -               | -               |
+| plantel                     | bigint  | Número de jogadores no plantel            | Não  | 1               | 60              |
+| jogadores_utilizados        | bigint  | Número de jogadores utilizados            | Não  | 1               | 60              |
+| media_idade_plantel         | double  | Média de idade do plantel                 | Não  | 15.0            | -               |
+| media_idade_time_titular    | double  | Média de idade do time titular            | Não  | 15.0            | -               |
+| media_idade                 | double  | Média de idade geral                      | Não  | 15.0            | -               |
 
 #### 6.2. home_away
-| Coluna            | Tipo    | Descrição                         | Nulo |
-|-------------------|---------|-----------------------------------|------|
-| ano               | bigint  | Ano da temporada                  | Não  |
-| rodada            | bigint  | Rodada do jogo                    | Não  |
-| clube_mandante    | string  | Nome do clube mandante            | Não  |
-| clube_visitante   | string  | Nome do clube visitante           | Não  |
-| gols_mandante     | string  | Gols do clube mandante            | Não  |
-| gols_visitante    | string  | Gols do clube visitante           | Não  |
-| data              | string  | Data do jogo                      | Sim  |
-| juiz              | string  | Nome do juiz                      | Sim  |
-| publico           | string  | Público presente                  | Sim  |
+| Coluna            | Tipo    | Descrição                         | Nulo | Valores Mínimos | Valores Máximos |
+|-------------------|---------|-----------------------------------|------|-----------------|-----------------|
+| ano               | bigint  | Ano da temporada                  | Não  | 2006            | 2024            |
+| rodada            | bigint  | Rodada do jogo                    | Não  | 1               | 38              |
+| clube_mandante    | string  | Nome do clube mandante            | Não  | -               | -               |
+| clube_visitante   | string  | Nome do clube visitante           | Não  | -               | -               |
+| gols_mandante     | string  | Gols do clube mandante            | Não  | 0               | -               |
+| gols_visitante    | string  | Gols do clube visitante           | Não  | 0               | -               |
+| data              | string  | Data do jogo                      | Sim  | -               | -               |
+| juiz              | string  | Nome do juiz                      | Sim  | -               | -               |
+| publico           | string  | Público presente                  | Sim  | 0               | -               |
 
 #### 6.3. price
-| Coluna                | Tipo    | Descrição                             | Nulo |
-|-----------------------|---------|---------------------------------------|------|
-| ano                   | bigint  | Ano da temporada                      | Não  |
-| clube                 | string  | Nome do clube                         | Não  |
-| plantel               | string  | Número de jogadores no plantel        | Não  |
-| media_idade           | string  | Média de idade do plantel             | Não  |
-| estrangeiros          | string  | Número de jogadores estrangeiros      | Não  |
-| media_valor_mercado   | string  | Valor médio de mercado                | Não  |
-| valor_mercado_total   | string  | Valor total de mercado                | Não  |
+| Coluna                | Tipo    | Descrição                             | Nulo | Valores Mínimos | Valores Máximos |
+|-----------------------|---------|---------------------------------------|------|-----------------|-----------------|
+| ano                   | bigint  | Ano da temporada                      | Não  | 2006            | 2024            |
+| clube                 | string  | Nome do clube                         | Não  | -               | -               |
+| plantel               | string  | Número de jogadores no plantel        | Não  | 1               | -               |
+| media_idade           | string  | Média de idade do plantel             | Não  | 15.0            | -               |
+| estrangeiros          | string  | Número de jogadores estrangeiros      | Não  | 0               | -               |
+| media_valor_mercado   | string  | Valor médio de mercado                | Não  | 1               | -               |
+| valor_mercado_total   | string  | Valor total de mercado                | Não  | 1               | -               |
 
 #### 6.4. round
-| Coluna         | Tipo    | Descrição                                 | Nulo |
-|----------------|---------|-------------------------------------------|------|
-| ano            | bigint  | Ano da temporada                          | Não  |
-| rodada         | bigint  | Rodada do jogo                            | Não  |
-| classificacao  | string  | Classificação do clube na rodada          | Não  |
-| clube          | string  | Nome do clube                             | Não  |
-| jogos          | string  | Número de jogos disputados                | Não  |
-| vitorias       | string  | Número de vitórias                        | Não  |
-| empates        | string  | Número de empates                         | Não  |
-| derrotas       | string  | Número de derrotas                        | Não  |
-| gols_pro       | string  | Número de gols a favor                    | Não  |
-| gols_contra    | string  | Número de gols contra                     | Não  |
-| saldo          | string  | Saldo de gols                             | Não  |
-| pontos         | string  | Número de pontos                          | Não  |
+| Coluna         | Tipo    | Descrição                                 | Nulo | Valores Mínimos | Valores Máximos |
+|----------------|---------|-------------------------------------------|------|-----------------|-----------------|
+| ano            | bigint  | Ano da temporada                          | Não  | 2006            | 2024            |
+| rodada         | bigint  | Rodada do jogo                            | Não  | 1               | 38              |
+| classificacao  | string  | Classificação do clube na rodada          | Não  | 1               | 20              |
+| clube          | string  | Nome do clube                             | Não  | -               | -               |
+| jogos          | string  | Número de jogos disputados                | Não  | 1               | 38              |
+| vitorias       | string  | Número de vitórias                        | Não  | 0               | 38              |
+| empates        | string  | Número de empates                         | Não  | 0               | 38              |
+| derrotas       | string  | Número de derrotas                        | Não  | 0               | 38              |
+| gols_pro       | string  | Número de gols a favor                    | Não  | 0               | -               |
+| gols_contra    | string  | Número de gols contra                     | Não  | 0               | -               |
+| saldo          | string  | Saldo de gols                             | Não  | -               | -               |
+| pontos         | string  | Número de pontos                          | Não  | 0               | -               |
