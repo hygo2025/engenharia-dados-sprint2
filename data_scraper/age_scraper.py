@@ -46,8 +46,7 @@ class AgeScraper(DataScraper):
             for row in rows:
                 cells = row.find_all('td')
                 if len(cells) > 1:
-                    # Normaliza o nome do clube e coleta os dados das colunas relevantes
-                    team = self.normalize_club_name(cells[1].get_text(strip=True))
+                    team = cells[1].get_text(strip=True)
                     squad_size = cells[2].get_text(strip=True)
                     players_used = cells[3].get_text(strip=True)
                     avg_age_squad = self.convert_string_to_double(cells[4].get_text(strip=True))

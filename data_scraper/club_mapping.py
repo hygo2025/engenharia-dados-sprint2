@@ -44,3 +44,13 @@ club_mapping = {
     'Joinville EC': 'Joinville',  # Joinville Esporte Clube para Joinville
     'CSA': 'CSA'  # Centro Sportivo Alagoano para CSA
 }
+
+
+def normalize_club_name(club_name):
+    """
+    Normaliza o nome do clube usando o mapeamento fornecido.
+
+    :param club_name: Nome do clube a ser normalizado.
+    :return: Nome normalizado do clube.
+    """
+    return club_mapping.get(club_name, club_name)

@@ -5,8 +5,7 @@ import requests
 import pandas as pd
 import time
 
-from utils.utils import Utils
-from .club_mapping import club_mapping
+from utils.spark_session import SparkSession
 
 
 class DataScraper:
@@ -19,12 +18,16 @@ class DataScraper:
         :param force_update_years: Lista de anos para os quais a atualização de dados deve ser forçada.
         :param is_sleep_enable: Habilita ou desabilita o atraso entre as solicitações para evitar bloqueios.
         """
+
+        self.schema_name = 'bronze'
         self.start_year = start_year
         self.end_year = end_year
         self.force_update_years = force_update_years
         self.headers = []
         self.is_sleep_enable = is_sleep_enable
-        self.club_mapping = club_mapping
+        self.spark = SparkSession().get_spark()
+        self.spark.sql(f"USE {self.schema_name}")
+
 
     def fetch_data(self, url):
         """
@@ -53,13 +56,13 @@ class DataScraper:
         df.to_csv(file_path, index=False)
         print(f"Data saved to {file_path}")
 
-    def collect_and_save_data(self):
+    def collect_and_save_data(self, base_path='../data'):
         """
         Coleta e salva os dados para todos os anos no intervalo especificado.
         """
         all_data = []
         for year in range(self.start_year, self.end_year + 1):
-            fpath = f"./data/{self.get_data_type()}/{self.get_data_type()}_{year}.csv"
+            fpath = f"{base_path}/{self.get_data_type()}/{self.get_data_type()}_{year}.csv"
             if os.path.exists(fpath) and year not in self.force_update_years:
                 existing_df = pd.read_csv(fpath)
                 all_data.extend(existing_df.values.tolist())
@@ -70,10 +73,22 @@ class DataScraper:
                     all_data.extend(data)
                     if self.is_sleep_enable:
                         time.sleep(1)
-        # Utils.merge_csv_files(
-        #     input_folder=f"./data/{self.get_data_type()}",
-        #     output_file=f"./consolidated/{self.get_data_type()}_all.data.csv"
-        # )
+        # Schema do DataFrame
+        schema = self.headers
+
+        # DataFrame a partir de todos os dados coletados
+        df = self.spark.createDataFrame(all_data, schema)
+
+        # Nome da tabela no schema padrão
+        table_name = f"{self.schema_name}.{self.get_data_type()}"
+
+        # Salvar o DataFrame na tabela
+        df.write.mode("overwrite").format("delta").saveAsTable(table_name)
+
+        # Verificar se os dados foram salvos na tabela
+        result = self.spark.sql(f"SELECT * FROM {table_name}")
+        result.show()
+
 
     def convert_string_to_double(self, value):
         """
@@ -101,11 +116,3 @@ class DataScraper:
         """
         raise NotImplementedError("This method should be overridden in derived classes")
 
-    def normalize_club_name(self, club_name):
-        """
-        Normaliza o nome do clube usando o mapeamento fornecido.
-
-        :param club_name: Nome do clube a ser normalizado.
-        :return: Nome normalizado do clube.
-        """
-        return self.club_mapping.get(club_name, club_name)

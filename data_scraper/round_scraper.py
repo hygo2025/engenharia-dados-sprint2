@@ -55,6 +55,6 @@ class RoundScraper(DataScraper):
                         if len(cell_values) > 7:
                             gols_pro, gols_contra = cell_values[6].split(':')
                             cell_values = cell_values[:6] + [gols_pro, gols_contra] + cell_values[7:]
-                        cell_values[3] = self.normalize_club_name(cell_values[3])
+                        cell_values[3] = cell_values[3]
                         data.append([year, round_number] + cell_values)
         return data

@@ -65,9 +65,9 @@ class HomeAwayScraper(DataScraper):
                             counter = counter + 1
                     if len(cells) == 9:
                         # Normaliza os nomes dos clubes e coleta os dados relevantes
-                        home_team = self.normalize_club_name(self.extract_club_name(cells[0].get_text(strip=True)))
+                        home_team = self.extract_club_name(cells[0].get_text(strip=True))
                         score = cells[4].get_text(strip=True)
-                        away_team = self.normalize_club_name(self.extract_club_name(cells[7].get_text(strip=True)))
+                        away_team = self.extract_club_name(cells[7].get_text(strip=True))
                         try:
                             home_score, away_score = map(int, score.split(':'))
                         except ValueError:
