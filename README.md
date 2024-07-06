@@ -21,11 +21,20 @@
         - [7.2. home_away](#72-home_away)
         - [7.3. price](#73-price)
         - [7.4. round](#74-round)
-    - [8. Catálogo de Dados da Camada Silver](#8-catálogo-de-dados-da-camada-silver)
-        - [8.1. age](#81-age)
-        - [8.2. home_away](#82-home_away)
-        - [8.3. price](#83-price)
-        - [8.4. round](#84-round)
+    - [8. Transformações para a Camada Gold](#8-transformações-para-a-camada-gold)
+        - [8.1. Dimensão Clube](#81-dimensão-clube)
+        - [8.2. Dimensão Tempo](#82-dimensão-tempo)
+        - [8.3. Fato Jogos](#83-fato-jogos)
+        - [8.4. Fato Desempenho](#84-fato-desempenho)
+        - [8.5. Fato Valor de Mercado](#85-fato-valor-de-mercado)
+        - [8.6. Fato Idade](#86-fato-idade)
+    - [9. Catálogo de Dados da Camada Gold](#9-catálogo-de-dados-da-camada-gold)
+        - [9.1. dim_clube](#91-dim_clube)
+        - [9.2. dim_tempo](#92-dim_tempo)
+        - [9.3. fato_jogos](#93-fato_jogos)
+        - [9.4. fato_desempenho](#94-fato_desempenho)
+        - [9.5. fato_valor_mercado](#95-fato_valor_mercado)
+        - [9.6. fato_idade](#96-fato_idade)
 
 ## Definição do Problema
 
@@ -102,7 +111,7 @@ camadas:
 
 - **Gold:** Contém dados altamente refinados e otimizados para a geração de relatórios e insights.
 
-  [Espaço para imagem da camada Gold]
+![Camada gold](images/camada_gold.png)
 
 Essa arquitetura oferece uma abordagem estruturada e eficiente para gerenciar e processar grandes volumes de dados,
 assegurando escalabilidade e confiabilidade. Com o data lake centrado na arquitetura Medallion, espera-se melhorar a
@@ -296,3 +305,101 @@ A transformação é feita via [round_transform](silver_transform/round_transfor
 | gols_contra   | bigint | Número de gols contra            | Não  | 0               | -               |
 | saldo         | bigint | Saldo de gols                    | Não  | -               | -               |
 | pontos        | bigint | Número de pontos                 | Não  | 0               | -               |
+
+
+### 8. Transformações para a Camada Gold
+A transformação para a camada Gold envolve a criação de tabelas dimensionais e de fatos que facilitam a análise dos dados de forma eficiente. Os scripts de transformação estão localizados na pasta `gold_transform`.
+
+#### 8.1. Dimensão Clube
+A transformação é feita via [dim_clube_transformer](gold_transform/dim_clube_transformer.py). O que foi feito:
+    - Criação de um identificador único para cada clube
+    - Normalização do nome dos clubes
+
+#### 8.2. Dimensão Tempo
+A transformação é feita via [dim_tempo_transformer](gold_transform/dim_tempo_transformer.py). O que foi feito:
+    - Criação de um identificador único para cada combinação de ano e rodada
+
+#### 8.3. Fato Jogos
+A transformação é feita via [fato_jogos_transformer](gold_transform/fato_jogos_transformer.py). O que foi feito:
+    - Criação de um identificador único para cada jogo
+    - Associação dos clubes mandante e visitante às suas dimensões
+    - Associação do tempo à dimensão tempo
+    - Cálculo de gols marcados por mandantes e visitantes
+
+#### 8.4. Fato Desempenho
+A transformação é feita via [fato_desempenho_transformer](gold_transform/fato_desempenho_transformer.py). O que foi feito:
+    - Criação de um identificador único para cada desempenho de clube
+    - Associação dos clubes à sua dimensão
+    - Associação do tempo à dimensão tempo
+    - Agregação de métricas de desempenho como jogos, vitórias, empates, derrotas, gols pró, gols contra, saldo e pontos
+
+#### 8.5. Fato Valor de Mercado
+A transformação é feita via [fato_valor_mercado_transformer](gold_transform/fato_valor_mercado_transformer.py). O que foi feito:
+    - Criação de um identificador único para cada valor de mercado de clube
+    - Associação dos clubes à sua dimensão
+    - Associação do tempo à dimensão tempo
+    - Conversão do valor de mercado para euros
+
+#### 8.6. Fato Idade
+A transformação é feita via [fato_idade_transformer](gold_transform/fato_idade_transformer.py). O que foi feito:
+    - Criação de um identificador único para cada registro de idade de clube
+    - Associação dos clubes à sua dimensão
+    - Associação do tempo à dimensão tempo
+    - Cálculo da média de idade do time titular e média de idade geral
+
+### 9. Catálogo de Dados da Camada Gold
+
+#### 9.1. dim_clube
+| Coluna   | Tipo    | Descrição                    | Nulo | Valores Mínimos | Valores Máximos |
+|----------|---------|------------------------------|------|-----------------|-----------------|
+| clube_id | bigint  | Identificador único do clube | Não  | 1               | -               |
+| nome     | string  | Nome do clube                | Não  | -               | -               |
+
+#### 9.2. dim_tempo
+| Coluna   | Tipo    | Descrição                     | Nulo | Valores Mínimos | Valores Máximos |
+|----------|---------|-------------------------------|------|-----------------|-----------------|
+| tempo_id | bigint  | Identificador único do tempo  | Não  | 1               | -               |
+| ano      | bigint  | Ano da temporada              | Não  | 2006            | 2024            |
+| rodada   | bigint  | Rodada do jogo                | Não  | 1               | 38              |
+
+#### 9.3. fato_jogos
+| Coluna             | Tipo    | Descrição                              | Nulo | Valores Mínimos | Valores Máximos |
+|--------------------|---------|----------------------------------------|------|-----------------|-----------------|
+| jogo_id            | bigint  | Identificador único do jogo            | Não  | 1               | -               |
+| clube_mandante_id  | bigint  | Identificador do clube mandante        | Não  | 1               | -               |
+| clube_visitante_id | bigint  | Identificador do clube visitante       | Não  | 1               | -               |
+| gols_mandante      | bigint  | Gols do clube mandante                 | Não  | 0               | -               |
+| gols_visitante     | bigint  | Gols do clube visitante                | Não  | 0               | -               |
+| tempo_id           | bigint  | Identificador do tempo (ano e rodada)  | Não  | 1               | -               |
+
+#### 9.4. fato_desempenho
+| Coluna       | Tipo    | Descrição                                   | Nulo | Valores Mínimos | Valores Máximos |
+|--------------|---------|---------------------------------------------|------|-----------------|-----------------|
+| desempenho_id| bigint  | Identificador único do desempenho           | Não  | 1               | -               |
+| clube_id     | bigint  | Identificador único do clube                | Não  | 1               | -               |
+| tempo_id     | bigint  | Identificador do tempo (ano e rodada)       | Não  | 1               | -               |
+| jogos        | bigint  | Número de jogos disputados                  | Não  | 1               | 38              |
+| vitorias     | bigint  | Número de vitórias                          | Não  | 0               | 38              |
+| empates      | bigint  | Número de empates                           | Não  | 0               | 38              |
+| derrotas     | bigint  | Número de derrotas                          | Não  | 0               | 38              |
+| gols_pro     | bigint  | Número de gols a favor                      | Não  | 0               | -               |
+| gols_contra  | bigint  | Número de gols contra                       | Não  | 0               | -               |
+| saldo        | bigint  | Saldo de gols                               | Não  | -               | -               |
+| pontos       | bigint  | Número de pontos                            | Não  | 0               | -               |
+
+#### 9.5. fato_valor_mercado
+| Coluna              | Tipo    | Descrição                                   | Nulo | Valores Mínimos | Valores Máximos |
+|---------------------|---------|---------------------------------------------|------|-----------------|-----------------|
+| valor_mercado_id    | bigint  | Identificador único do valor de mercado     | Não  | 1               | -               |
+| clube_id            | bigint  | Identificador único do clube                | Não  | 1               | -               |
+| tempo_id            | bigint  | Identificador do tempo (ano e rodada)       | Não  | 1               | -               |
+| valor_mercado_euros | double  | Valor de mercado em euros                   | Não  | 0               | -               |
+
+#### 9.6. fato_idade
+| Coluna                    | Tipo    | Descrição                                   | Nulo | Valores Mínimos | Valores Máximos |
+|---------------------------|---------|---------------------------------------------|------|-----------------|-----------------|
+| idade_id                  | bigint  | Identificador único da idade                | Não  | 1               | -               |
+| clube_id                  | bigint  | Identificador único do clube                | Não  | 1               | -               |
+| tempo_id                  | bigint  | Identificador do tempo (ano e rodada)       | Não  | 1               | -               |
+| media_idade_time_titular  | double  | Média de idade do time titular              | Não  | 15.0            | -               |
+| media_idade               | double  | Média de idade geral                        | Não  | 15.0            | -               |
