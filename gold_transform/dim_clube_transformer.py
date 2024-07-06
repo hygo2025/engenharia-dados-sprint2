@@ -1,6 +1,6 @@
 import pandas as pd
 
-from base_transformer import BaseTransformer
+from gold_transform.base_transformer import BaseTransformer
 
 
 class DimClubeTransformer(BaseTransformer):
@@ -25,6 +25,10 @@ class DimClubeTransformer(BaseTransformer):
             [df_age['clube'], df_home_away['clube_mandante'], df_home_away['clube_visitante'], df_price['clube'],
              df_round['clube']])
         clubes = clubes.unique()
+
+        # Ordenar clubes alfabeticamente
+        clubes.sort()
+
         clubes_df = pd.DataFrame(clubes, columns=['nome'])
         clubes_df['clube_id'] = clubes_df.index + 1
         return clubes_df[['clube_id', 'nome']]

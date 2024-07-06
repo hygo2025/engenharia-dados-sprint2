@@ -60,19 +60,23 @@ class DataScraper:
         """
         Coleta e salva os dados para todos os anos no intervalo especificado.
         """
+        for year in range(self.start_year, self.end_year + 1):
+            fpath = f"{base_path}/{self.get_data_type()}/{self.get_data_type()}_{year}.csv"
+            if os.path.exists(fpath) and year not in self.force_update_years:
+                continue
+            else:
+                data = self.get_data(year)
+                if data:
+                    self.save_data(data, fpath)
+                    if self.is_sleep_enable:
+                        time.sleep(1)
+
         all_data = []
         for year in range(self.start_year, self.end_year + 1):
             fpath = f"{base_path}/{self.get_data_type()}/{self.get_data_type()}_{year}.csv"
             if os.path.exists(fpath) and year not in self.force_update_years:
                 existing_df = pd.read_csv(fpath)
                 all_data.extend(existing_df.values.tolist())
-            else:
-                data = self.get_data(year)
-                if data:
-                    self.save_data(data, fpath)
-                    all_data.extend(data)
-                    if self.is_sleep_enable:
-                        time.sleep(1)
         # Schema do DataFrame
         schema = self.headers
 
