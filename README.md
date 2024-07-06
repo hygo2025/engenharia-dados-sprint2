@@ -44,6 +44,7 @@
     - [6.2. O quão desesperador é a situação atual do Fluminense?](#62-o-quão-desesperador-é-a-situacao-atual-do-fluminense)
     - [6.3. A idade média dos jogadores influencia no desempenho dos clubes?](#63-a-idade-média-dos-jogadores-influencia-no-desempenho-dos-clubes)
     - [6.4. O valor de mercado dos clubes está relacionado com a sua classificação no campeonato?](#64-o-valor-de-mercado-dos-clubes-está-relacionado-com-a-sua-classificação-no-campeonato)
+- [7. Autoavaliação](#autoavaliação)
 
 ## Definição do Problema
 
