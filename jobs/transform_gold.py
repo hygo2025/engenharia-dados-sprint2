@@ -6,7 +6,7 @@ from gold_transform.fato_jogos_transformer import FatoJogosTransformer
 from gold_transform.fato_valor_mercado_transformer import FatoValorMercadoTransformer
 
 
-def main():
+def transform_gold():
     dim_clube_transform = DimClubeTransformer()
     dim_clube_transform.transform()
 
@@ -24,7 +24,3 @@ def main():
 
     fato_idade_transformer = FatoIdadeTransformer()
     fato_idade_transformer.transform()
-
-
-if __name__ == "__main__":
-    main()

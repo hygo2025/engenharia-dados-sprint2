@@ -1,7 +1,7 @@
 from utils.spark_session import SparkSession
 
 
-def create_tables(spark, schema_name, tables):
+def create_tables_internal(spark, schema_name, tables):
     for table_name, table_definition in tables.items():
         spark.sql(f"""
             CREATE TABLE IF NOT EXISTS {schema_name}.{table_name} {table_definition}
@@ -16,7 +16,7 @@ def create_tables(spark, schema_name, tables):
     spark.sql(f"SHOW TABLES IN {schema_name}").show()
 
 
-def main():
+def create_tables():
     spark = SparkSession().get_spark()
 
     schema_name_bronze = "bronze"
@@ -180,10 +180,6 @@ def main():
         """
     }
 
-    create_tables(spark, schema_name_bronze, tables_bronze)
-    create_tables(spark, schema_name_silver, tables_silver)
-    create_tables(spark, schema_name_gold, tables_gold)
-
-
-if __name__ == "__main__":
-    main()
+    create_tables_internal(spark, schema_name_bronze, tables_bronze)
+    create_tables_internal(spark, schema_name_silver, tables_silver)
+    create_tables_internal(spark, schema_name_gold, tables_gold)

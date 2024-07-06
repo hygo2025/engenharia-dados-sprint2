@@ -6,7 +6,7 @@ from data_scraper.price_scraper import PriceScraper
 from data_scraper.round_scraper import RoundScraper
 
 
-def main():
+def extract_data():
     rounds_per_season = {2024: 14}
     start_year = 2006
     end_year = 2024
@@ -27,7 +27,3 @@ def main():
     # Coleta e salva dados de jogos dentro e fora
     home_away_scraper = HomeAwayScraper(start_year, end_year, force_update_years, rounds_per_season)
     home_away_scraper.collect_and_save_data()
-
-
-if __name__ == "__main__":
-    main()

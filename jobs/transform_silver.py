@@ -4,7 +4,7 @@ from silver_transform.price_transformer import PriceTransform
 from silver_transform.round_transformer import RoundTransform
 
 
-def main():
+def transform_silver():
     age_transform = AgeTransform()
     age_transform.transform()
 
@@ -16,7 +16,3 @@ def main():
 
     round_transform = RoundTransform()
     round_transform.transform()
-
-
-if __name__ == "__main__":
-    main()

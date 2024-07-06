@@ -2,7 +2,8 @@
 
 1. [Definição do Problema](#definição-do-problema)
 2. [Objetivo](#objetivo)
-3. [O Projeto](#o-projeto)
+3. [Observações](#observações)
+4. [O Projeto](#o-projeto)
     - [1. Pesquisa de Dados](#1-pesquisa-de-dados)
     - [2. Coleta de Dados](#2-coleta-de-dados)
     - [3. Plataforma para Execução das Tarefas](#3-plataforma-para-execução-das-tarefas)
@@ -37,20 +38,46 @@
         - [9.6. fato_idade](#96-fato_idade)
         - [9.7. Representação do Modelo](#97-representação-do-modelo)
 
+- [5. Qualidade dos Dados](#qualidade-dos-dados)
+- [6. Análises e Insights](#análises-e-insights)
+    - [6.1. Qual a pontuação média para escapar do rebaixamento nos últimos anos?](#61-qual-a-pontuação-média-para-escapar-do-rebaixamento-nos-últimos-anos)
+    - [6.2. O quão desesperador é a situação atual do Fluminense?](#62-o-quão-desesperador-é-a-situacao-atual-do-fluminense)
+    - [6.3. A idade média dos jogadores influencia no desempenho dos clubes?](#63-a-idade-média-dos-jogadores-influencia-no-desempenho-dos-clubes)
+    - [6.4. O valor de mercado dos clubes está relacionado com a sua classificação no campeonato?](#64-o-valor-de-mercado-dos-clubes-está-relacionado-com-a-sua-classificação-no-campeonato)
+
 ## Definição do Problema
-O campeonato brasileiro de futbol é um dos mais competitivos do mundo, com clubes de todo o país disputando o título e o rebaixamento a cada temporada. Com a crescente demanda por análises e insights sobre o desempenho dos clubes, jogadores e treinadores, é essencial contar com uma plataforma robusta e eficiente para coletar, processar e analisar dados relevantes sobre o campeonato.
-E eu como tricolor, quero saber mais sobre o desempenho do meu time, o Fluminense, ao longo das temporadas, comparando com outros clubes e identificando padrões e tendências que possam influenciar o desempenho futuro.
-E ajudar a acalentar meu coracao tricolor, que anda meio despedacado com os ultimos resultados.
+
+O campeonato brasileiro de futebol é um dos mais competitivos do mundo, com clubes de todo o país disputando o título e
+o rebaixamento a cada temporada. Com a crescente demanda por análises e insights sobre o desempenho dos clubes,
+jogadores e treinadores, é essencial contar com uma plataforma robusta e eficiente para coletar, processar e analisar
+dados relevantes sobre o campeonato.
+E eu, como tricolor, quero saber mais sobre o desempenho do meu time, o Fluminense, ao longo das temporadas, comparando
+com outros clubes e identificando padrões e tendências que possam influenciar o desempenho futuro.
+E ajudar a acalentar meu coração tricolor, que anda meio despedaçado com os últimos resultados.
 
 ## Objetivo
-O objetivo deste projeto é criar uma plataforma de análise de dados para o Campeonato Brasileiro Série A, que permita a coleta, processamento e análise de informações detalhadas sobre o desempenho dos clubes, jogadores e treinadores ao longo das temporadas. A plataforma deve ser capaz de fornecer insights valiosos e relatórios personalizados para apoiar a tomada de decisões informadas e estratégicas no futebol brasileiro.
-E me ajudar a ter mais esperanca de que o Fluminense vai melhorar.
+
+O objetivo deste projeto é criar uma plataforma de análise de dados para o Campeonato Brasileiro Série A, que permita a
+coleta, processamento e análise de informações detalhadas sobre o desempenho dos clubes, jogadores e treinadores ao
+longo das temporadas. A plataforma deve ser capaz de fornecer insights valiosos e relatórios personalizados para apoiar
+a tomada de decisões informadas e estratégicas no futebol brasileiro.
+E me ajudar a ter mais esperança de que o Fluminense vai melhorar.
 
 Com isso eu pretendo responder as seguintes perguntas:
- - Qual a pontuação média para escapar do rebaixamento nos últimos anos?
- - O quão desesperador é a situacao atual do Fluminense?
- - A idade média dos jogadores influencia no desempenho dos clubes?
- - O valor de mercado dos clubes está relacionado com a sua classificação no campeonato?
+
+- Qual a pontuação média para escapar do rebaixamento nos últimos anos?
+- O quão desesperadora é a situação atual do Fluminense?
+- A idade média dos jogadores influencia no desempenho dos clubes?
+- O valor de mercado dos clubes está relacionado com a sua classificação no campeonato?
+
+## Observações
+
+A linhagem de dados foi descrita a cada transformação entre as camadas, e a descrição de cada tabela foi feita na
+criação da mesma. Seguindo a seguinte lógica:
+
+- Extração e Carregamento de Dados para a Camada Bronze
+- Transformações para a Camada Silver
+- Transformações para a Camada Gold
 
 ## O Projeto
 
@@ -318,103 +345,118 @@ A transformação é feita via [round_transform](silver_transform/round_transfor
 | saldo         | bigint | Saldo de gols                    | Não  | -               | -               |
 | pontos        | bigint | Número de pontos                 | Não  | 0               | -               |
 
-
 ### 8. Transformações para a Camada Gold
-A transformação para a camada Gold envolve a criação de tabelas dimensionais e de fatos que facilitam a análise dos dados de forma eficiente. Os scripts de transformação estão localizados na pasta `gold_transform`.
+
+A transformação para a camada Gold envolve a criação de tabelas dimensionais e de fatos que facilitam a análise dos
+dados de forma eficiente. Os scripts de transformação estão localizados na pasta `gold_transform`.
 
 #### 8.1. Dimensão Clube
+
 A transformação é feita via [dim_clube_transformer](gold_transform/dim_clube_transformer.py). O que foi feito:
-    - Criação de um identificador único para cada clube
-    - Normalização do nome dos clubes
+- Criação de um identificador único para cada clube
+- Normalização do nome dos clubes
 
 #### 8.2. Dimensão Tempo
+
 A transformação é feita via [dim_tempo_transformer](gold_transform/dim_tempo_transformer.py). O que foi feito:
-    - Criação de um identificador único para cada combinação de ano e rodada
+- Criação de um identificador único para cada combinação de ano e rodada
 
 #### 8.3. Fato Jogos
+
 A transformação é feita via [fato_jogos_transformer](gold_transform/fato_jogos_transformer.py). O que foi feito:
-    - Criação de um identificador único para cada jogo
-    - Associação dos clubes mandante e visitante às suas dimensões
-    - Associação do tempo à dimensão tempo
-    - Cálculo de gols marcados por mandantes e visitantes
+- Criação de um identificador único para cada jogo
+- Associação dos clubes mandante e visitante às suas dimensões
+- Associação do tempo à dimensão tempo
+- Cálculo de gols marcados por mandantes e visitantes
 
 #### 8.4. Fato Desempenho
-A transformação é feita via [fato_desempenho_transformer](gold_transform/fato_desempenho_transformer.py). O que foi feito:
-    - Criação de um identificador único para cada desempenho de clube
-    - Associação dos clubes à sua dimensão
-    - Associação do tempo à dimensão tempo
-    - Agregação de métricas de desempenho como jogos, vitórias, empates, derrotas, gols pró, gols contra, saldo e pontos
+
+A transformação é feita via [fato_desempenho_transformer](gold_transform/fato_desempenho_transformer.py). O que foi
+feito:
+- Criação de um identificador único para cada desempenho de clube
+- Associação dos clubes à sua dimensão
+- Associação do tempo à dimensão tempo
+- Agregação de métricas de desempenho como jogos, vitórias, empates, derrotas, gols pró, gols contra, saldo e pontos
 
 #### 8.5. Fato Valor de Mercado
-A transformação é feita via [fato_valor_mercado_transformer](gold_transform/fato_valor_mercado_transformer.py). O que foi feito:
-    - Criação de um identificador único para cada valor de mercado de clube
-    - Associação dos clubes à sua dimensão
-    - Associação do tempo à dimensão tempo
-    - Conversão do valor de mercado para euros
+
+A transformação é feita via [fato_valor_mercado_transformer](gold_transform/fato_valor_mercado_transformer.py). O que
+foi feito:
+- Criação de um identificador único para cada valor de mercado de clube
+- Associação dos clubes à sua dimensão
+- Associação do tempo à dimensão tempo
+- Conversão do valor de mercado para euros
 
 #### 8.6. Fato Idade
+
 A transformação é feita via [fato_idade_transformer](gold_transform/fato_idade_transformer.py). O que foi feito:
-    - Criação de um identificador único para cada registro de idade de clube
-    - Associação dos clubes à sua dimensão
-    - Associação do tempo à dimensão tempo
-    - Cálculo da média de idade do time titular e média de idade geral
+- Criação de um identificador único para cada registro de idade de clube
+- Associação dos clubes à sua dimensão
+- Associação do tempo à dimensão tempo
+- Cálculo da média de idade do time titular e média de idade geral
 
 ### 9. Catálogo de Dados da Camada Gold
 
 #### 9.1. dim_clube
-| Coluna   | Tipo    | Descrição                    | Nulo | Valores Mínimos | Valores Máximos |
-|----------|---------|------------------------------|------|-----------------|-----------------|
-| clube_id | bigint  | Identificador único do clube | Não  | 1               | -               |
-| nome     | string  | Nome do clube                | Não  | -               | -               |
+
+| Coluna   | Tipo   | Descrição                    | Nulo | Valores Mínimos | Valores Máximos |
+|----------|--------|------------------------------|------|-----------------|-----------------|
+| clube_id | bigint | Identificador único do clube | Não  | 1               | -               |
+| nome     | string | Nome do clube                | Não  | -               | -               |
 
 #### 9.2. dim_tempo
-| Coluna   | Tipo    | Descrição                     | Nulo | Valores Mínimos | Valores Máximos |
-|----------|---------|-------------------------------|------|-----------------|-----------------|
-| tempo_id | bigint  | Identificador único do tempo  | Não  | 1               | -               |
-| ano      | bigint  | Ano da temporada              | Não  | 2006            | 2024            |
-| rodada   | bigint  | Rodada do jogo                | Não  | 1               | 38              |
+
+| Coluna   | Tipo   | Descrição                    | Nulo | Valores Mínimos | Valores Máximos |
+|----------|--------|------------------------------|------|-----------------|-----------------|
+| tempo_id | bigint | Identificador único do tempo | Não  | 1               | -               |
+| ano      | bigint | Ano da temporada             | Não  | 2006            | 2024            |
+| rodada   | bigint | Rodada do jogo               | Não  | 1               | 38              |
 
 #### 9.3. fato_jogos
-| Coluna             | Tipo    | Descrição                              | Nulo | Valores Mínimos | Valores Máximos |
-|--------------------|---------|----------------------------------------|------|-----------------|-----------------|
-| jogo_id            | bigint  | Identificador único do jogo            | Não  | 1               | -               |
-| clube_mandante_id  | bigint  | Identificador do clube mandante        | Não  | 1               | -               |
-| clube_visitante_id | bigint  | Identificador do clube visitante       | Não  | 1               | -               |
-| gols_mandante      | bigint  | Gols do clube mandante                 | Não  | 0               | -               |
-| gols_visitante     | bigint  | Gols do clube visitante                | Não  | 0               | -               |
-| tempo_id           | bigint  | Identificador do tempo (ano e rodada)  | Não  | 1               | -               |
+
+| Coluna             | Tipo   | Descrição                             | Nulo | Valores Mínimos | Valores Máximos |
+|--------------------|--------|---------------------------------------|------|-----------------|-----------------|
+| jogo_id            | bigint | Identificador único do jogo           | Não  | 1               | -               |
+| clube_mandante_id  | bigint | Identificador do clube mandante       | Não  | 1               | -               |
+| clube_visitante_id | bigint | Identificador do clube visitante      | Não  | 1               | -               |
+| gols_mandante      | bigint | Gols do clube mandante                | Não  | 0               | -               |
+| gols_visitante     | bigint | Gols do clube visitante               | Não  | 0               | -               |
+| tempo_id           | bigint | Identificador do tempo (ano e rodada) | Não  | 1               | -               |
 
 #### 9.4. fato_desempenho
-| Coluna       | Tipo    | Descrição                                   | Nulo | Valores Mínimos | Valores Máximos |
-|--------------|---------|---------------------------------------------|------|-----------------|-----------------|
-| desempenho_id| bigint  | Identificador único do desempenho           | Não  | 1               | -               |
-| clube_id     | bigint  | Identificador único do clube                | Não  | 1               | -               |
-| tempo_id     | bigint  | Identificador do tempo (ano e rodada)       | Não  | 1               | -               |
-| jogos        | bigint  | Número de jogos disputados                  | Não  | 1               | 38              |
-| vitorias     | bigint  | Número de vitórias                          | Não  | 0               | 38              |
-| empates      | bigint  | Número de empates                           | Não  | 0               | 38              |
-| derrotas     | bigint  | Número de derrotas                          | Não  | 0               | 38              |
-| gols_pro     | bigint  | Número de gols a favor                      | Não  | 0               | -               |
-| gols_contra  | bigint  | Número de gols contra                       | Não  | 0               | -               |
-| saldo        | bigint  | Saldo de gols                               | Não  | -               | -               |
-| pontos       | bigint  | Número de pontos                            | Não  | 0               | -               |
+
+| Coluna        | Tipo   | Descrição                             | Nulo | Valores Mínimos | Valores Máximos |
+|---------------|--------|---------------------------------------|------|-----------------|-----------------|
+| desempenho_id | bigint | Identificador único do desempenho     | Não  | 1               | -               |
+| clube_id      | bigint | Identificador único do clube          | Não  | 1               | -               |
+| tempo_id      | bigint | Identificador do tempo (ano e rodada) | Não  | 1               | -               |
+| jogos         | bigint | Número de jogos disputados            | Não  | 1               | 38              |
+| vitorias      | bigint | Número de vitórias                    | Não  | 0               | 38              |
+| empates       | bigint | Número de empates                     | Não  | 0               | 38              |
+| derrotas      | bigint | Número de derrotas                    | Não  | 0               | 38              |
+| gols_pro      | bigint | Número de gols a favor                | Não  | 0               | -               |
+| gols_contra   | bigint | Número de gols contra                 | Não  | 0               | -               |
+| saldo         | bigint | Saldo de gols                         | Não  | -               | -               |
+| pontos        | bigint | Número de pontos                      | Não  | 0               | -               |
 
 #### 9.5. fato_valor_mercado
-| Coluna              | Tipo    | Descrição                                   | Nulo | Valores Mínimos | Valores Máximos |
-|---------------------|---------|---------------------------------------------|------|-----------------|-----------------|
-| valor_mercado_id    | bigint  | Identificador único do valor de mercado     | Não  | 1               | -               |
-| clube_id            | bigint  | Identificador único do clube                | Não  | 1               | -               |
-| tempo_id            | bigint  | Identificador do tempo (ano e rodada)       | Não  | 1               | -               |
-| valor_mercado_euros | double  | Valor de mercado em euros                   | Não  | 0               | -               |
+
+| Coluna              | Tipo   | Descrição                               | Nulo | Valores Mínimos | Valores Máximos |
+|---------------------|--------|-----------------------------------------|------|-----------------|-----------------|
+| valor_mercado_id    | bigint | Identificador único do valor de mercado | Não  | 1               | -               |
+| clube_id            | bigint | Identificador único do clube            | Não  | 1               | -               |
+| tempo_id            | bigint | Identificador do tempo (ano e rodada)   | Não  | 1               | -               |
+| valor_mercado_euros | double | Valor de mercado em euros               | Não  | 0               | -               |
 
 #### 9.6. fato_idade
-| Coluna                    | Tipo    | Descrição                                   | Nulo | Valores Mínimos | Valores Máximos |
-|---------------------------|---------|---------------------------------------------|------|-----------------|-----------------|
-| idade_id                  | bigint  | Identificador único da idade                | Não  | 1               | -               |
-| clube_id                  | bigint  | Identificador único do clube                | Não  | 1               | -               |
-| tempo_id                  | bigint  | Identificador do tempo (ano e rodada)       | Não  | 1               | -               |
-| media_idade_time_titular  | double  | Média de idade do time titular              | Não  | 15.0            | -               |
-| media_idade               | double  | Média de idade geral                        | Não  | 15.0            | -               |
+
+| Coluna                   | Tipo   | Descrição                             | Nulo | Valores Mínimos | Valores Máximos |
+|--------------------------|--------|---------------------------------------|------|-----------------|-----------------|
+| idade_id                 | bigint | Identificador único da idade          | Não  | 1               | -               |
+| clube_id                 | bigint | Identificador único do clube          | Não  | 1               | -               |
+| tempo_id                 | bigint | Identificador do tempo (ano e rodada) | Não  | 1               | -               |
+| media_idade_time_titular | double | Média de idade do time titular        | Não  | 15.0            | -               |
+| media_idade              | double | Média de idade geral                  | Não  | 15.0            | -               |
 
 #### 9.7. Representação do Modelo
 
@@ -431,29 +473,69 @@ graph LR
   F[dim_tempo] --> E[fato_idade]
 ```
 
-### 10. Análises e Insights
+### Qualidade dos Dados
 
-#### 10.1. Qual a pontuação média para escapar do rebaixamento nos últimos anos?
+Os dados em si não são muito problemáticos, pois são extraídos de uma fonte confiável e bem estruturada. No entanto, é
+importante garantir a qualidade dos dados em todas as etapas do processo, desde a extração até a análise final. Para
+isso, foram implementadas verificações de qualidade de dados em cada etapa do pipeline, incluindo:
+
+- Na camada de extração e carregamento, foram realizadas verificações de integridade e consistência dos dados,
+  garantindo que os arquivos sejam carregados corretamente e sem erros.
+- Na camada de transformação, foram aplicadas verificações de valores nulos e duplicados, bem como conversão de tipos de
+  dados e normalização de valores.
+    - Foi feito na camada [Silver](silver_transform)
+    - Foi feito na camada [Gold](gold_transform)
+
+### Análises e Insights
+
+Para a criação desses dashboards, foram criadas algumas queries que estão na pasta `queries`. Os dashboards foram
+criados no Databricks, utilizando a ferramenta de visualização de dados integrada.
+
+- [Idade média dos times rebaxados](queries/idade_media_times_rebaixados.sql)
+- [Idade média dos times rebaxados e Top 4](queries/idade_media_top4_rebaixados.sql)
+- [Pontuação média para escapar do rebaixamento](queries/pontos_minimos_para_escapar_rebaixamento_ultima_rodada.sql)
+- [Pontuação média para escapar do rebaixamento por rodada](queries/pontos_minimos_para_escapar_rebaixamento_por_rodada.sql)
+- [Valor médio dos times rebaxados](queries/preco_medio_times_rebaixados.sql)
+- [Valor médio dos times rebaxados e Top 4](queries/preco_medio_top4_rebaixados.sql)
+- [Informações gerais dos times em 2025](queries/info_por_clube_ultimo_ano.sql)
+
+#### 6.1. Qual a pontuação média para escapar do rebaixamento nos últimos anos?
+
 A pontuação média para escapar do rebaixamento nos últimos anos foi de 44 pontos.
 
 A imagem abaixo mostra a pontuação média dos clubes que escaparam do rebaixamento nas últimas temporadas.
 
 ![Pontuação média para escapar do rebaixamento](images/dashboard/pontuacao_media_rebaixamento.png)
 
-#### 10.2. O quão desesperador é a situacao atual do Fluminense?
-Olhando pelos últimos anos todos os times com a pontuação do Fluminense foram rebaixados. A situação é realmente desesperadora.
-O fluminense tem 7 pontos em 14 rodadas, o que é um desempenho muito ruim, visto que a média de pontos dos times que escaparam nessa etapa do campeonato foi de 15 pontos.
-Observacao: Essa análise não considera times que tiveram seus jogos empatados como empate.
+#### 6.2. O quão desesperador é a situacao atual do Fluminense?
+
+Olhando pelos últimos anos, todos os times com a pontuação do Fluminense foram rebaixados. A situação é realmente
+desesperadora.
+O Fluminense tem 7 pontos em 14 rodadas, o que é um desempenho muito ruim, visto que a média de pontos dos times que
+escaparam nessa etapa do campeonato foi de 15 pontos.
+Observação: Essa análise não considera times que tiveram seus jogos empatados como empate.
 
 ![Desempenho 14 rodada](images/dashboard/pontuacao_media_14_rodada.png)
 ![Desempenho geral](images/dashboard/informacaoes_gerais.png)
 
-#### 10.3. A idade média dos jogadores influencia no desempenho dos clubes?
-A idade média dos jogadores não influencia diretamente no desempenho dos clubes. A análise dos dados indica que não há uma correlação (não estou apontando causalidade) clara entre a idade média dos jogadores e o desempenho dos clubes.
+#### 6.3. A idade média dos jogadores influencia no desempenho dos clubes?
+
+A idade média dos jogadores não influencia diretamente no desempenho dos clubes. A análise dos dados indica que não há
+uma correlação (não estou apontando causalidade) clara entre a idade média dos jogadores e o desempenho dos clubes.
 
 ![Desempenho dos clubes por idade média](images/dashboard/idade_media.png)
 
-#### 10.4. O valor de mercado dos clubes está relacionado com a sua classificação no campeonato?
-O valor de mercado dos clubes indica que não há uma correlação (não estou apontando causalidade) com a sua classificação no campeonato. A análise dos dados mostra que os clubes com maior valor de mercado tendem a ter um desempenho melhor e a ocupar as primeiras posições na tabela.
+#### 6.4. O valor de mercado dos clubes está relacionado com a sua classificação no campeonato?
+
+O valor de mercado dos clubes indica que não há uma correlação (não estou apontando causalidade) com a sua classificação
+no campeonato. A análise dos dados mostra que os clubes com maior valor de mercado tendem a ter um desempenho melhor e a
+ocupar as primeiras posições na tabela.
 
 ![Desempenho dos clubes por valor de mercado](images/dashboard/custo_medio.png)
+
+### Autoavaliação
+
+Eu trabalho como desenvolvedor ha muitos anos então a construcao do trabalho não foi um problema. O que achei mais
+dificil foi entender como utilizar o databricks para integrar as minhas ferramentas.
+No inicio achei que seria interessante jogar todos os dados diretos no s3 em seguida fazer a integracao
+via `Data Ingestion` do databricks, mas achei que seria mais interessante fazer a integracao via `Jobs` que eu construi.

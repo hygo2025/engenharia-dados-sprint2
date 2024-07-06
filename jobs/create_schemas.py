@@ -1,7 +1,7 @@
 from utils.spark_session import SparkSession
 
 
-def main():
+def create_schemas():
     spark = SparkSession().get_spark()
 
     spark.sql(f"CREATE SCHEMA IF NOT EXISTS bronze")
@@ -11,7 +11,3 @@ def main():
     # Verificar se o schema foi criado
     schemas = spark.sql("SHOW SCHEMAS")
     schemas.show()
-
-
-if __name__ == "__main__":
-    main()
