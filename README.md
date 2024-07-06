@@ -563,4 +563,6 @@ Na última camada, optei por usar um modelo estrela. A princípio, parecia uma �
 
 Com tudo isso consegui responder as perguntas feitas no início do projeto, e ainda consegui gerar insights adicionais que podem ser úteis para análises futuras. E entendi que vou precisar rezar muito para o meu time não se rebaixado.
 
+Um ponto que vale ressaltar é que tentei seguir algumas boas práticas de construção de projetos de engenharia. Devido a isso, optei por não fazer tudo em notebooks, preferindo uma estrutura mais modular e organizada.
+
 Por fim, apesar dos desafios e aprendizados ao longo do caminho, realmente gostei de fazer este trabalho. Poderia ter iniciado um pouco antes para evitar a pressão do tempo, mas acredito que o resultado final ficou muito bom. Foi uma experiência enriquecedora que ampliou meu conhecimento e habilidades, especialmente em relação ao uso do Databricks e à integração de dados complexos. Estou satisfeito com o que consegui alcançar e pronto para aplicar esses aprendizados em futuros projetos.
