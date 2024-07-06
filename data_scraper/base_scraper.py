@@ -1,9 +1,10 @@
 # Classe base DataScraper com a lógica comum para todos os scrapers
 
 import os
-import requests
-import pandas as pd
 import time
+
+import pandas as pd
+import requests
 
 from utils.spark_session import SparkSession
 
@@ -27,7 +28,6 @@ class DataScraper:
         self.is_sleep_enable = is_sleep_enable
         self.spark = SparkSession().get_spark()
         self.spark.sql(f"USE {self.schema_name}")
-
 
     def fetch_data(self, url):
         """
@@ -89,7 +89,6 @@ class DataScraper:
         result = self.spark.sql(f"SELECT * FROM {table_name}")
         result.show()
 
-
     def convert_string_to_double(self, value):
         """
         Converte uma string que representa um valor numérico para float.
@@ -115,4 +114,3 @@ class DataScraper:
         Este método deve ser implementado nas classes derivadas.
         """
         raise NotImplementedError("This method should be overridden in derived classes")
-

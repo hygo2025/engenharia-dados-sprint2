@@ -1,7 +1,8 @@
 # Classe PriceScraper para coletar dados de preço dos times
 
-from .base_scraper import DataScraper
 from bs4 import BeautifulSoup
+
+from .base_scraper import DataScraper
 
 
 class PriceScraper(DataScraper):
@@ -14,7 +15,8 @@ class PriceScraper(DataScraper):
         :param force_update_years: Lista de anos para os quais a atualização de dados deve ser forçada.
         """
         super().__init__(start_year, end_year, force_update_years)
-        self.headers = ['ano', 'clube', 'plantel', 'media_idade', 'estrangeiros', 'media_valor_mercado', 'valor_mercado_total']
+        self.headers = ['ano', 'clube', 'plantel', 'media_idade', 'estrangeiros', 'media_valor_mercado',
+                        'valor_mercado_total']
 
     def get_data_type(self):
         """
@@ -54,5 +56,3 @@ class PriceScraper(DataScraper):
                     total_market_value = cells[6].get_text(strip=True)
                     data.append([year, team, squad_size, avg_age, foreigners, avg_market_value, total_market_value])
         return data
-
-

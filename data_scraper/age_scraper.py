@@ -1,7 +1,8 @@
 # Classe AgeScraper para coletar dados de idade dos times
 
-from .base_scraper import DataScraper
 from bs4 import BeautifulSoup
+
+from .base_scraper import DataScraper
 
 
 class AgeScraper(DataScraper):

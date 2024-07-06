@@ -2,7 +2,6 @@ from utils.spark_session import SparkSession
 
 
 def main():
-
     spark = SparkSession().get_spark()
 
     spark.sql(f"CREATE SCHEMA IF NOT EXISTS bronze")

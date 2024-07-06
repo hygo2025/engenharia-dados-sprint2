@@ -1,7 +1,8 @@
 # Classe RoundScraper para coletar dados de rodadas
 
-from .base_scraper import DataScraper
 from bs4 import BeautifulSoup
+
+from .base_scraper import DataScraper
 
 
 class RoundScraper(DataScraper):
@@ -38,7 +39,7 @@ class RoundScraper(DataScraper):
         data = []
         for round_number in range(1, num_rounds + 1):
             # Monta a URL para o ano e rodada especificados
-            url = f"https://www.transfermarkt.com.br/campeonato-brasileiro-serie-a/spieltagtabelle/wettbewerb/BRA1?saison_id={year-1}&spieltag={round_number}"
+            url = f"https://www.transfermarkt.com.br/campeonato-brasileiro-serie-a/spieltagtabelle/wettbewerb/BRA1?saison_id={year - 1}&spieltag={round_number}"
 
             # Faz a requisição dos dados e faz o parsing do conteúdo HTML
             content = self.fetch_data(url)

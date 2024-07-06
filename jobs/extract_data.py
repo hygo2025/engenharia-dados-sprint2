@@ -1,9 +1,9 @@
 # Script principal para execução dos scrapers
 
 from data_scraper.age_scraper import AgeScraper
+from data_scraper.home_away_scraper import HomeAwayScraper
 from data_scraper.price_scraper import PriceScraper
 from data_scraper.round_scraper import RoundScraper
-from data_scraper.home_away_scraper import HomeAwayScraper
 
 
 def main():

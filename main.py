@@ -1,10 +1,5 @@
 # Script principal para execução dos scrapers
 
-from data_scraper.age_scraper import AgeScraper
-from data_scraper.price_scraper import PriceScraper
-from data_scraper.round_scraper import RoundScraper
-from data_scraper.home_away_scraper import HomeAwayScraper
-from utils.utils import Utils
 from databricks.connect import DatabricksSession
 from databricks.sdk.core import Config
 
@@ -17,7 +12,6 @@ def main():
     input_folder = "data"
     bucket = "databricks-workspace-stack-4f961-bucket"
     base_path = "unity-catalog/2370156648242123"
-
 
     # # Coleta e salva dados de idade
     # age_scraper = AgeScraper(start_year, end_year, force_update_years)
@@ -48,6 +42,7 @@ def main():
 
     df = spark.read.table("2025_hygo.bronze.age")
     df.show(5)
+
 
 if __name__ == "__main__":
     main()

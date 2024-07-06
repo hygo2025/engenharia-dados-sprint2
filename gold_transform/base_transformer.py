@@ -1,25 +1,26 @@
 from utils.spark_session import SparkSession
 
 
-class SilverTransform:
+class BaseTransformer:
     def __init__(self):
-        self.origin_schema_name = 'bronze'
-        self.target_schema_name = 'silver'
+        self.origin_schema_name = 'silver'
+        self.target_schema_name = 'gold'
         self.headers = []
         self.spark = SparkSession().get_spark()
 
-    def get_data(self):
-        """
-        Retorna os dados da camada bronze.
-        """
-        table_name = f"{self.origin_schema_name}.{self.get_data_type()}"
-        query = f"SELECT * FROM {table_name}"
+    def get_data_from_silver(self, table_name):
+        query = f"SELECT * FROM {self.origin_schema_name}.{table_name}"
+        spark_df = self.spark.sql(query)
+        return spark_df.toPandas()
+
+    def get_data_from_gold(self, table_name):
+        query = f"SELECT * FROM {self.target_schema_name}.{table_name}"
         spark_df = self.spark.sql(query)
         return spark_df.toPandas()
 
     def transform(self):
         """
-        Salva os dados transformados na camada silver.
+        Salva os dados transformados na camada gold.
         """
         table_name = f"{self.target_schema_name}.{self.get_data_type()}"
         df = self.transform_data()

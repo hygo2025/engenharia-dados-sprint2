@@ -120,8 +120,69 @@ def main():
         """
     }
 
+    schema_name_gold = "gold"
+    tables_gold = {
+        "dim_clube": """
+            (
+                clube_id bigint,
+                nome string
+            )
+        """,
+        "dim_tempo": """
+            (
+                tempo_id bigint,
+                ano bigint,
+                rodada bigint
+            )
+        """,
+        "fato_jogos": """
+            (
+                jogo_id bigint,
+                clube_mandante_id bigint,
+                clube_visitante_id bigint,
+                gols_mandante bigint,
+                gols_visitante bigint,
+                tempo_id bigint
+            )
+        """,
+        "fato_desempenho": """
+            (
+                desempenho_id bigint,
+                clube_id bigint,
+                tempo_id bigint,
+                jogos bigint,
+                vitorias bigint,
+                empates bigint,
+                derrotas bigint,
+                gols_pro bigint,
+                gols_contra bigint,
+                saldo bigint,
+                pontos bigint
+            )
+        """,
+        "fato_valor_mercado": """
+            (
+                valor_mercado_id bigint,
+                clube_id bigint,
+                tempo_id bigint,
+                valor_mercado_euros double
+            )
+        """,
+        "fato_idade": """
+            (
+                idade_id bigint,
+                clube_id bigint,
+                tempo_id bigint,
+                plantel bigint,
+                media_idade_time_titular double,
+                media_idade double
+            )
+        """
+    }
+
     create_tables(spark, schema_name_bronze, tables_bronze)
     create_tables(spark, schema_name_silver, tables_silver)
+    create_tables(spark, schema_name_gold, tables_gold)
 
 
 if __name__ == "__main__":

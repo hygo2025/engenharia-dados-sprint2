@@ -1,8 +1,10 @@
 # Classe HomeAwayScraper para coletar dados de jogos dentro e fora
 
-from .base_scraper import DataScraper
-from bs4 import BeautifulSoup
 import re
+
+from bs4 import BeautifulSoup
+
+from .base_scraper import DataScraper
 
 
 class HomeAwayScraper(DataScraper):
@@ -17,7 +19,8 @@ class HomeAwayScraper(DataScraper):
         """
         super().__init__(start_year, end_year, force_update_years)
         self.rounds_per_season = rounds_per_season
-        self.headers = ['ano', 'rodada', 'clube_mandante', 'clube_visitante', 'gols_mandante', 'gols_visitante', 'data', 'juiz', 'publico']
+        self.headers = ['ano', 'rodada', 'clube_mandante', 'clube_visitante', 'gols_mandante', 'gols_visitante', 'data',
+                        'juiz', 'publico']
 
     def get_data_type(self):
         """
@@ -38,7 +41,7 @@ class HomeAwayScraper(DataScraper):
         data = []
         for round_number in range(1, num_rounds + 1):
             # Monta a URL para o ano e rodada especificados
-            url = f"https://www.transfermarkt.com.br/campeonato-brasileiro-serie-a/spieltag/wettbewerb/BRA1/plus/?saison_id={year-1}&spieltag={round_number}"
+            url = f"https://www.transfermarkt.com.br/campeonato-brasileiro-serie-a/spieltag/wettbewerb/BRA1/plus/?saison_id={year - 1}&spieltag={round_number}"
 
             # Faz a requisição dos dados e faz o parsing do conteúdo HTML
             content = self.fetch_data(url)
@@ -54,7 +57,7 @@ class HomeAwayScraper(DataScraper):
                         anchor = cells[0].find('a')
                         if anchor is not None:
                             if counter == 0:
-                                data[len(data) -1].append(anchor.get_text(strip=True))
+                                data[len(data) - 1].append(anchor.get_text(strip=True))
                             if counter == 1:
                                 data[len(data) - 1].append(anchor.get_text(strip=True))
                                 try:
