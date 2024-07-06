@@ -34,7 +34,7 @@ class AgeScraper(DataScraper):
         :return: Lista de dados coletados para o ano especificado.
         """
         # Monta a URL para o ano especificado
-        url = f"https://www.transfermarkt.com.br/campeonato-brasileiro-serie-a/altersschnitt/wettbewerb/BRA1/saison_id/{year}/plus/1"
+        url = f"https://www.transfermarkt.com.br/campeonato-brasileiro-serie-a/altersschnitt/wettbewerb/BRA1/saison_id/{year-1}/plus/1"
 
         # Faz a requisição dos dados e faz o parsing do conteúdo HTML
         content = self.fetch_data(url)

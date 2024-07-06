@@ -34,7 +34,7 @@ class PriceScraper(DataScraper):
         :return: Lista de dados coletados para o ano especificado.
         """
         # Monta a URL para o ano especificado
-        url = f"https://www.transfermarkt.com.br/campeonato-brasileiro-serie-a/startseite/wettbewerb/BRA1/plus/?saison_id={year}"
+        url = f"https://www.transfermarkt.com.br/campeonato-brasileiro-serie-a/startseite/wettbewerb/BRA1/plus/?saison_id={year-1}"
 
         # Faz a requisição dos dados e faz o parsing do conteúdo HTML
         content = self.fetch_data(url)

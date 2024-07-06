@@ -38,8 +38,19 @@
         - [9.7. Representação do Modelo](#97-representação-do-modelo)
 
 ## Definição do Problema
+O campeonato brasileiro de futbol é um dos mais competitivos do mundo, com clubes de todo o país disputando o título e o rebaixamento a cada temporada. Com a crescente demanda por análises e insights sobre o desempenho dos clubes, jogadores e treinadores, é essencial contar com uma plataforma robusta e eficiente para coletar, processar e analisar dados relevantes sobre o campeonato.
+E eu como tricolor, quero saber mais sobre o desempenho do meu time, o Fluminense, ao longo das temporadas, comparando com outros clubes e identificando padrões e tendências que possam influenciar o desempenho futuro.
+E ajudar a acalentar meu coracao tricolor, que anda meio despedacado com os ultimos resultados.
 
 ## Objetivo
+O objetivo deste projeto é criar uma plataforma de análise de dados para o Campeonato Brasileiro Série A, que permita a coleta, processamento e análise de informações detalhadas sobre o desempenho dos clubes, jogadores e treinadores ao longo das temporadas. A plataforma deve ser capaz de fornecer insights valiosos e relatórios personalizados para apoiar a tomada de decisões informadas e estratégicas no futebol brasileiro.
+E me ajudar a ter mais esperanca de que o Fluminense vai melhorar.
+
+Com isso eu pretendo responder as seguintes perguntas:
+ - Qual a pontuação média para escapar do rebaixamento nos últimos anos?
+ - O quão desesperador é a situacao atual do Fluminense?
+ - A idade média dos jogadores influencia no desempenho dos clubes?
+ - O valor de mercado dos clubes está relacionado com a sua classificação no campeonato?
 
 ## O Projeto
 
@@ -419,3 +430,30 @@ graph LR
   F[dim_tempo] --> D[fato_valor_mercado]
   F[dim_tempo] --> E[fato_idade]
 ```
+
+### 10. Análises e Insights
+
+#### 10.1. Qual a pontuação média para escapar do rebaixamento nos últimos anos?
+A pontuação média para escapar do rebaixamento nos últimos anos foi de 44 pontos.
+
+A imagem abaixo mostra a pontuação média dos clubes que escaparam do rebaixamento nas últimas temporadas.
+
+![Pontuação média para escapar do rebaixamento](images/dashboard/pontuacao_media_rebaixamento.png)
+
+#### 10.2. O quão desesperador é a situacao atual do Fluminense?
+Olhando pelos últimos anos todos os times com a pontuação do Fluminense foram rebaixados. A situação é realmente desesperadora.
+O fluminense tem 7 pontos em 14 rodadas, o que é um desempenho muito ruim, visto que a média de pontos dos times que escaparam nessa etapa do campeonato foi de 15 pontos.
+Observacao: Essa análise não considera times que tiveram seus jogos empatados como empate.
+
+![Desempenho 14 rodada](images/dashboard/pontuacao_media_14_rodada.png)
+![Desempenho geral](images/dashboard/informacaoes_gerais.png)
+
+#### 10.3. A idade média dos jogadores influencia no desempenho dos clubes?
+A idade média dos jogadores não influencia diretamente no desempenho dos clubes. A análise dos dados indica que não há uma correlação (não estou apontando causalidade) clara entre a idade média dos jogadores e o desempenho dos clubes.
+
+![Desempenho dos clubes por idade média](images/dashboard/idade_media.png)
+
+#### 10.4. O valor de mercado dos clubes está relacionado com a sua classificação no campeonato?
+O valor de mercado dos clubes indica que não há uma correlação (não estou apontando causalidade) com a sua classificação no campeonato. A análise dos dados mostra que os clubes com maior valor de mercado tendem a ter um desempenho melhor e a ocupar as primeiras posições na tabela.
+
+![Desempenho dos clubes por valor de mercado](images/dashboard/custo_medio.png)
