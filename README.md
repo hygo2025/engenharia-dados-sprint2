@@ -353,17 +353,20 @@ dados de forma eficiente. Os scripts de transformação estão localizados na pa
 #### 8.1. Dimensão Clube
 
 A transformação é feita via [dim_clube_transformer](gold_transform/dim_clube_transformer.py). O que foi feito:
+
 - Criação de um identificador único para cada clube
 - Normalização do nome dos clubes
 
 #### 8.2. Dimensão Tempo
 
 A transformação é feita via [dim_tempo_transformer](gold_transform/dim_tempo_transformer.py). O que foi feito:
+
 - Criação de um identificador único para cada combinação de ano e rodada
 
 #### 8.3. Fato Jogos
 
 A transformação é feita via [fato_jogos_transformer](gold_transform/fato_jogos_transformer.py). O que foi feito:
+
 - Criação de um identificador único para cada jogo
 - Associação dos clubes mandante e visitante às suas dimensões
 - Associação do tempo à dimensão tempo
@@ -373,6 +376,7 @@ A transformação é feita via [fato_jogos_transformer](gold_transform/fato_jogo
 
 A transformação é feita via [fato_desempenho_transformer](gold_transform/fato_desempenho_transformer.py). O que foi
 feito:
+
 - Criação de um identificador único para cada desempenho de clube
 - Associação dos clubes à sua dimensão
 - Associação do tempo à dimensão tempo
@@ -382,6 +386,7 @@ feito:
 
 A transformação é feita via [fato_valor_mercado_transformer](gold_transform/fato_valor_mercado_transformer.py). O que
 foi feito:
+
 - Criação de um identificador único para cada valor de mercado de clube
 - Associação dos clubes à sua dimensão
 - Associação do tempo à dimensão tempo
@@ -390,6 +395,7 @@ foi feito:
 #### 8.6. Fato Idade
 
 A transformação é feita via [fato_idade_transformer](gold_transform/fato_idade_transformer.py). O que foi feito:
+
 - Criação de um identificador único para cada registro de idade de clube
 - Associação dos clubes à sua dimensão
 - Associação do tempo à dimensão tempo
@@ -535,7 +541,24 @@ ocupar as primeiras posições na tabela.
 
 ### Autoavaliação
 
-Eu trabalho como desenvolvedor ha muitos anos então a construcao do trabalho não foi um problema. O que achei mais
-dificil foi entender como utilizar o databricks para integrar as minhas ferramentas.
-No inicio achei que seria interessante jogar todos os dados diretos no s3 em seguida fazer a integracao
-via `Data Ingestion` do databricks, mas achei que seria mais interessante fazer a integracao via `Jobs` que eu construi.
+Trabalhando como desenvolvedor há muitos anos, a construção deste trabalho não foi um problema para mim. No entanto, o que achei mais desafiador foi entender como usar o Databricks para integrar minhas ferramentas de forma eficiente. Esse foi um ponto onde precisei dedicar mais tempo e esforço para alcançar os resultados desejados.
+
+Inicialmente, pensei que seria interessante jogar todos os dados diretamente no S3 e, em seguida, fazer a integração via Data Ingestion do Databricks. No entanto, à medida que fui avançando no projeto, percebi que seria mais interessante e eficiente fazer a integração via os Jobs que construí. Essa mudança de abordagem se mostrou mais alinhada com as necessidades do projeto e facilitou o fluxo de trabalho.
+
+
+Minha abordagem para construir o projeto foi seguir camada a camada:
+- Extração e Carregamento de Dados para a Camada Bronze: Esta etapa envolveu a coleta dos dados brutos e seu armazenamento inicial. Foi crucial garantir que os dados fossem coletados de maneira precisa e organizada.
+- Transformações para a Camada Silver: Nessa etapa, os dados passaram por processos de limpeza e transformação, tornando-os mais utilizáveis e prontos para análises mais profundas.
+- Transformações para a Camada Gold: Aqui, os dados foram refinados e otimizados para gerar relatórios e insights de alto valor.
+
+Esse pipeline é feito através do arquivo `main.py`, que executa todos os jobs necessários para a construção do Data Lake, essa execução foi feita dentro da plataforma `Databricks premium`.
+```mermaid
+graph LR
+A[Extrair dados] -- Garantir a completude minima das informacoes --> B[Camada bronze]
+B[Camada bronze] -- Padronizar tipos de dados e descartar colunas --> C[Camada silver]
+C[Camada silver] -- Estruturar no modelo estrela --> D[Camada gold]
+```
+
+Na última camada, optei por usar um modelo estrela. A princípio, parecia uma ótima ideia devido à sua eficácia na organização e análise de dados relacionais. No entanto, ao longo do projeto, percebi que as queries ficaram complexas demais. Talvez, se eu tivesse feito duas tabelas – uma com informações de ano/rodada e outra apenas com ano – as queries poderiam ter sido mais simples e eficientes.
+
+Por fim, apesar dos desafios e aprendizados ao longo do caminho, realmente gostei de fazer este trabalho. Poderia ter iniciado um pouco antes para evitar a pressão do tempo, mas acredito que o resultado final ficou muito bom. Foi uma experiência enriquecedora que ampliou meu conhecimento e habilidades, especialmente em relação ao uso do Databricks e à integração de dados complexos. Estou satisfeito com o que consegui alcançar e pronto para aplicar esses aprendizados em futuros projetos.
