@@ -15,6 +15,16 @@
      - [6.2. home_away](#62-home_away)
      - [6.3. price](#63-price)
      - [6.4. round](#64-round)
+   - [7. Transformações para a Camada Silver](#7-transformações-para-a-camada-silver)
+     - [7.1. age](#71-age)
+     - [7.2. home_away](#72-home_away)
+     - [7.3. price](#73-price)
+     - [7.4. round](#74-round)
+   - [8. Catálogo de Dados da Camada Silver](#8-catálogo-de-dados-da-camada-silver)
+     - [8.1. age](#81-age)
+     - [8.2. home_away](#82-home_away)
+     - [8.3. price](#83-price)
+     - [8.4. round](#84-round)
 
 ## Definição do Problema
 
@@ -64,11 +74,11 @@ Foi criado um cluster no Databricks Premium, integrado com o GitHub para version
 
 - **Bronze:** Contém dados brutos, exatamente como foram extraídos das fontes.
   
-![Cmada bronze](images/camada_bronze.png)
+![Camada bronze](images/camada_bronze.png)
 
 - **Silver:** Contém dados limpos e transformados, prontos para análise.
   
-  [Espaço para imagem da camada Silver]
+![Camada silver](images/camada_silver.png)
 
 - **Gold:** Contém dados altamente refinados e otimizados para a geração de relatórios e insights.
   
@@ -158,3 +168,75 @@ A primeira coisa que o script faz é checar se já existe este arquivo localment
 | gols_contra    | string  | Número de gols contra                     | Não  | 0               | -               |
 | saldo          | string  | Saldo de gols                             | Não  | -               | -               |
 | pontos         | string  | Número de pontos                          | Não  | 0               | -               |
+
+### 7. Transformações para a Camada Silver
+Toda a transformação foi feita por jobs que estão na pasta `silver_transform`. A transformação é feita lendo os dados da camada bronze e salvando na camada silver.
+
+#### 7.1. age
+A transformação é feita via [age_transform](silver_transform/age_transform.py). O que foi feito:
+- Conversão de tipos
+- Remoção de colunas desnecessárias (plantel, jogadores_utilizados, media_idade_plantel)
+- Normalização do nome dos clubes
+
+#### 7.2. home_away
+A transformação é feita via [home_away_transform](silver_transform/home_away_transform.py). O que foi feito:
+- Conversão de tipos
+- Remoção de colunas desnecessárias (data, juiz, publico)
+- Normalização do nome dos clubes
+- Tratamento das colunas gols_mandante e gols_visitante para que em caso de `adiado` o valor seja 0
+
+#### 7.3. price
+A transformação é feita via [price_transform](silver_transform/price_transform.py). O que foi feito:
+- Conversão de tipos
+- Remoção de colunas desnecessárias (plantel, media_idade, estrangeiros, media_valor_mercado)
+- Normalização do nome dos clubes
+- Tratamento das colunas media_valor_mercado e valor_mercado_total para que em caso de `K` ou `M` seja convertido para o valor correto
+
+#### 7.4. round
+A transformação é feita via [round_transform](silver_transform/round_transform.py). O que foi feito:
+- Conversão de tipos
+- Normalização do nome dos clubes
+
+### 8. Catálogo de Dados da Camada Silver
+
+#### 8.1. age
+| Coluna                   | Tipo    | Descrição                              | Nulo | Valores Mínimos | Valores Máximos |
+|--------------------------|---------|----------------------------------------|------|-----------------|-----------------|
+| ano                      | bigint  | Ano da temporada                       | Não  | 2006            | 2024            |
+| clube                    | string  | Nome do clube                          | Não  | -               | -               |
+| plantel                  | bigint  | Número de jogadores no plantel         | Não  | 1               | 60              |
+| media_idade_time_titular | double  | Média de idade do time titular         | Não  | 15.0            | -               |
+| media_idade              | double  | Média de idade geral                   | Não  | 15.0            | -               |
+
+#### 8.2. home_away
+| Coluna            | Tipo    | Descrição                         | Nulo | Valores Mínimos | Valores Máximos |
+|-------------------|---------|-----------------------------------|------|-----------------|-----------------|
+| ano               | bigint  | Ano da temporada                  | Não  | 2006            | 2024            |
+| rodada            | bigint  | Rodada do jogo                    | Não  | 1               | 38              |
+| clube_mandante    | string  | Nome do clube mandante            | Não  | -               | -               |
+| clube_visitante   | string  | Nome do clube visitante           | Não  | -               | -               |
+| gols_mandante     | bigint  | Gols do clube mandante            | Não  | 0               | -               |
+| gols_visitante    | bigint  | Gols do clube visitante           | Não  | 0               | -               |
+
+#### 8.3. price
+| Coluna                | Tipo    | Descrição                             | Nulo | Valores Mínimos | Valores Máximos |
+|-----------------------|---------|---------------------------------------|------|-----------------|-----------------|
+| ano                   | bigint  | Ano da temporada                      | Não  | 2006            | 2024            |
+| clube                 | string  | Nome do clube                         | Não  | -               | -               |
+| valor_mercado_euros   | double  | Valor de mercado em euros             | Não  | 1               | -               |
+
+#### 8.4. round
+| Coluna         | Tipo    | Descrição                                 | Nulo | Valores Mínimos | Valores Máximos |
+|----------------|---------|-------------------------------------------|------|-----------------|-----------------|
+| ano            | bigint  | Ano da temporada                          | Não  | 2006            | 2024            |
+| rodada         | bigint  | Rodada do jogo                            | Não  | 1               | 38              |
+| classificacao  | string  | Classificação do clube na rodada          | Não  | 1               | 20              |
+| clube          | string  | Nome do clube                             | Não  | -               | -               |
+| jogos          | bigint  | Número de jogos disputados                | Não  | 1               | 38              |
+| vitorias       | bigint  | Número de vitórias                        | Não  | 0               | 38              |
+| empates        | bigint  | Número de empates                         | Não  | 0               | 38              |
+| derrotas       | bigint  | Número de derrotas                        | Não  | 0               | 38              |
+| gols_pro       | bigint  | Número de gols a favor                    | Não  | 0               | -               |
+| gols_contra    | bigint  | Número de gols contra                     | Não  | 0               | -               |
+| saldo          | bigint  | Saldo de gols                             | Não  | -               | -               |
+| pontos         | bigint  | Número de pontos                          | Não  | 0               | -               |
