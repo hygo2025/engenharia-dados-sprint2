@@ -35,6 +35,7 @@
         - [9.4. fato_desempenho](#94-fato_desempenho)
         - [9.5. fato_valor_mercado](#95-fato_valor_mercado)
         - [9.6. fato_idade](#96-fato_idade)
+        - [9.7. Representação do Modelo](#97-representação-do-modelo)
 
 ## Definição do Problema
 
@@ -403,3 +404,18 @@ A transformação é feita via [fato_idade_transformer](gold_transform/fato_idad
 | tempo_id                  | bigint  | Identificador do tempo (ano e rodada)       | Não  | 1               | -               |
 | media_idade_time_titular  | double  | Média de idade do time titular              | Não  | 15.0            | -               |
 | media_idade               | double  | Média de idade geral                        | Não  | 15.0            | -               |
+
+#### 9.7. Representação do Modelo
+
+```mermaid
+graph LR
+  A[dim_clube] --> B[fato_jogos]
+  A[dim_clube] --> C[fato_desempenho]
+  A[dim_clube] --> D[fato_valor_mercado]
+  A[dim_clube] --> E[fato_idade]
+
+  F[dim_tempo] --> B[fato_jogos]
+  F[dim_tempo] --> C[fato_desempenho]
+  F[dim_tempo] --> D[fato_valor_mercado]
+  F[dim_tempo] --> E[fato_idade]
+```
