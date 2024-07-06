@@ -561,4 +561,6 @@ C[Camada silver] -- Estruturar no modelo estrela --> D[Camada gold]
 
 Na última camada, optei por usar um modelo estrela. A princípio, parecia uma ótima ideia devido à sua eficácia na organização e análise de dados relacionais. No entanto, ao longo do projeto, percebi que as queries ficaram complexas demais. Talvez, se eu tivesse feito duas tabelas – uma com informações de ano/rodada e outra apenas com ano – as queries poderiam ter sido mais simples e eficientes.
 
+Com tudo isso consegui responder as perguntas feitas no início do projeto, e ainda consegui gerar insights adicionais que podem ser úteis para análises futuras. E entendi que vou precisar rezar muito para o meu time não se rebaixado.
+
 Por fim, apesar dos desafios e aprendizados ao longo do caminho, realmente gostei de fazer este trabalho. Poderia ter iniciado um pouco antes para evitar a pressão do tempo, mas acredito que o resultado final ficou muito bom. Foi uma experiência enriquecedora que ampliou meu conhecimento e habilidades, especialmente em relação ao uso do Databricks e à integração de dados complexos. Estou satisfeito com o que consegui alcançar e pronto para aplicar esses aprendizados em futuros projetos.
