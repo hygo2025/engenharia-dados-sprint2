@@ -37,8 +37,8 @@
         - [9.5. fato_valor_mercado](#95-fato_valor_mercado)
         - [9.6. fato_idade](#96-fato_idade)
         - [9.7. Representação do Modelo](#97-representação-do-modelo)
-
 - [5. Qualidade dos Dados](#qualidade-dos-dados)
+  - [5.1. Qualidade dos Dados em imagens](#51-qualidade-dos-dados-em-imagens)
 - [6. Análises e Insights](#análises-e-insights)
     - [6.1. Qual a pontuação média para escapar do rebaixamento nos últimos anos?](#61-qual-a-pontuação-média-para-escapar-do-rebaixamento-nos-últimos-anos)
     - [6.2. O quão desesperador é a situação atual do Fluminense?](#62-o-quão-desesperador-é-a-situacao-atual-do-fluminense)
@@ -492,6 +492,75 @@ isso, foram implementadas verificações de qualidade de dados em cada etapa do 
   dados e normalização de valores.
     - Foi feito na camada [Silver](silver_transform)
     - Foi feito na camada [Gold](gold_transform)
+
+#### 5.1 Qualidade dos Dados em imagens
+- Quantidade de dados nas tabelas ([query](queries/data_quality/quantity_values.sql))
+  <details>
+    <summary>Show Answer</summary>
+    <img src="images/data_quality/data_quantity.png" alt="data_quantity">
+  </details>
+- Checando valores nulos ([query](queries/data_quality/null_values.sql))
+  - Dimensão Clube
+    <details>
+      <summary>Show Answer</summary>
+      <img src="images/data_quality/null_values/valores_nulos_dim_clube.png" alt="valores_nulos_dim_clube">
+    </details>
+  - Dimensão Tempo
+    <details>
+      <summary>Show Answer</summary>
+      <img src="images/data_quality/null_values/valores_nulos_dim_tempo.png" alt="valores_nulos_dim_tempo">
+    </details>
+  - Fato Jogos
+    <details>
+      <summary>Show Answer</summary>
+      <img src="images/data_quality/null_values/valores_nulos_fato_jogo.png" alt="valores_nulos_fato_jogo">
+    </details>
+  - Fato Desempenho
+    <details>
+      <summary>Show Answer</summary>
+      <img src="images/data_quality/null_values/valores_nulos_fato_desempenho.png" alt="valores_nulos_fato_desempenho">
+    </details>
+  - Fato Valor Mercado
+    <details>
+      <summary>Show Answer</summary>
+      <img src="images/data_quality/null_values/valores_nulos_fato_valor_mercado.png" alt="valores_nulos_fato_valor_mercado">
+    </details>
+  - Fato Idade
+    <details>
+      <summary>Show Answer</summary>
+      <img src="images/data_quality/null_values/valores_nulos_fato_idade.png" alt="valores_nulos_fato_idade">
+    </details>
+- Checando valores duplicados ([query](queries/data_quality/duplicate_values.sql))
+  - Dimensão Clube
+    <details>
+      <summary>Show Answer</summary>
+      <img src="images/data_quality/duplicate/duplicate_dim_clube.png" alt="valores_duplicados_dim_clube">
+    </details>
+  - Dimensão Tempo
+    <details>
+      <summary>Show Answer</summary>
+      <img src="images/data_quality/duplicate/duplicate_dim_tempo.png" alt="valores_duplicados_dim_tempo">
+    </details>
+  - Fato Jogos
+    <details>
+      <summary>Show Answer</summary>
+      <img src="images/data_quality/duplicate/duplicate_fato_jogos.png" alt="valores_duplicados_fato_jogo">
+    </details>
+  - Fato Desempenho
+    <details>
+      <summary>Show Answer</summary>
+      <img src="images/data_quality/duplicate/duplicate_fato_desempenho.png" alt="valores_duplicados_fato_desempenho">
+    </details>
+  - Fato Valor Mercado
+    <details>
+      <summary>Show Answer</summary>
+      <img src="images/data_quality/duplicate/duplicate_fato_valor_mercado.png" alt="valores_duplicados_fato_valor_mercado">
+    </details>
+  - Fato Idade
+    <details>
+      <summary>Show Answer</summary>
+      <img src="images/data_quality/duplicate/duplicate_fato_idade.png" alt="valores_duplicados_fato_idade">
+    </details>
 
 ### Análises e Insights
 
