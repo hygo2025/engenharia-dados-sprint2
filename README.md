@@ -561,6 +561,8 @@ isso, foram implementadas verificações de qualidade de dados em cada etapa do 
       <summary>Show Answer</summary>
       <img src="images/data_quality/duplicate/duplicate_fato_idade.png" alt="valores_duplicados_fato_idade">
     </details>
+    
+Com essas verificações, é possível garantir que os dados estejam corretos e prontos para serem utilizados na análise.
 
 ### Análises e Insights
 
